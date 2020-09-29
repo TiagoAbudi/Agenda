@@ -25,7 +25,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 
@@ -35,19 +34,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
     private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
     private final List<Validador> validadores = new ArrayList<>();
-    private EditText campoNome;
-    private EditText campoSobrenome;
-    private EditText campoTelefone;
-    private EditText campoEmail;
-    private EditText campoData;
     private Aluno aluno;
     private TextInputLayout textInputNome;
     private TextInputLayout textInputSobrenome;
     private TextInputLayout textInputTelefoneComDdd;
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputData;
-    private TextInputLayout textInputCampo;
-    private EditText campo;
 
 
     @Override
@@ -56,15 +48,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario_aluno);
         inicializacaoDosCampos();
         carregaAluno();
-        setaViews();
-    }
-
-    private void setaViews(){
-        textInputNome = findViewById(R.id.activity_formulario_aluno_nome);
-        textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
-        textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
-        textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
-        textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
     }
 
     @Override
@@ -88,15 +71,13 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean validaTodosCampos() {
-        boolean formularioEstaValido = true;
-        for (Validador validador :
-                validadores) {
-            if (!validador.estaValido()) {
-                formularioEstaValido = false;
-            }
-        }
-        return formularioEstaValido;
+    private void inicializacaoDosCampos() {
+        setaViews();
+        iniciaCampoNome();
+        iniciaCampoSobremome();
+        iniciaCampoTelefone();
+        iniciaCampoEmail();
+        iniciaCampoData();
     }
 
     private void carregaAluno() {
@@ -109,14 +90,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             setTitle(TITULO_APPBAR_NOVO_ALUNO);
             aluno = new Aluno();
         }
-    }
-
-    private void preencheCampos() {
-        campoNome.setText(aluno.getNome());
-        campoSobrenome.setText(aluno.getSobrenome());
-        campoTelefone.setText(aluno.getTelefone());
-        campoEmail.setText(aluno.getEmail());
-        campoData.setText(aluno.getData());
     }
 
     private void finalizaFormulario() {
@@ -132,14 +105,54 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         voltaParaListaDeAlunos();
     }
 
+    private void preencheCampos() {
+        textInputNome.getEditText().setText(aluno.getNome());
+        textInputSobrenome.getEditText().setText(aluno.getSobrenome());
+        textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
+        textInputEmail.getEditText().setText(aluno.getEmail());
+        textInputData.getEditText().setText(aluno.getData());
+    }
+
+    private void adicionaValidacaoPadrao(final TextInputLayout textInputCampo) {
+        final EditText campo = textInputCampo.getEditText();
+        final ValidacaoPadrao validador = new ValidacaoPadrao(textInputCampo);
+        validadores.add(validador);
+        campo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validador.estaValido();
+                }
+            }
+        });
+    }
+
+    private boolean validaTodosCampos() {
+        boolean formularioEstaValido = true;
+        for (Validador validador :
+                validadores) {
+            if (!validador.estaValido()) {
+                formularioEstaValido = false;
+            }
+        }
+        return formularioEstaValido;
+    }
+
     private void voltaParaListaDeAlunos() {
         startActivity(new Intent(this, ListaAlunosActivity.class));
     }
 
-    private void inicializacaoDosCampos() {
-        adicionaValidacaoPadrao(textInputNome);
-        adicionaValidacaoPadrao(textInputSobrenome);
+    private void iniciaCampoNome() {
+        TextInputLayout textInputPrimeiroNome = textInputNome;
+        adicionaValidacaoPadrao(textInputPrimeiroNome);
+    }
 
+    private void iniciaCampoSobremome() {
+        TextInputLayout textInputUltimoNome = textInputSobrenome;
+        adicionaValidacaoPadrao(textInputUltimoNome);
+    }
+
+    private void iniciaCampoTelefone() {
         EditText campoTelefoneComDdd = textInputTelefoneComDdd.getEditText();
         ValidaTelefoneComDdd validadorTelefone = new ValidaTelefoneComDdd(textInputTelefoneComDdd);
         validadores.add(validadorTelefone);
@@ -156,7 +169,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void iniciaCampoEmail() {
         EditText campoEmail = textInputEmail.getEditText();
         ValidaEmail validadorEmail = new ValidaEmail(textInputEmail);
         validadores.add(validadorEmail);
@@ -168,7 +183,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void iniciaCampoData() {
         TextInputLayout textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         EditText campoData = textInputData.getEditText();
         ValidaData validadorData = new ValidaData(textInputData);
@@ -189,11 +206,11 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void preencheAluno() {
-        String nome = Objects.requireNonNull(textInputNome.getEditText()).toString();
-        String sobrenome = Objects.requireNonNull(textInputSobrenome.getEditText()).toString();
-        String telefone = Objects.requireNonNull(textInputTelefoneComDdd.getEditText()).toString();
-        String email = Objects.requireNonNull(textInputEmail.getEditText()).toString();
-        String data = Objects.requireNonNull(textInputData.getEditText()).toString();
+        String nome = textInputNome.getEditText().getText().toString();
+        String sobrenome = textInputSobrenome.getEditText().getText().toString();
+        String telefone = textInputTelefoneComDdd.getEditText().getText().toString();
+        String email = textInputEmail.getEditText().getText().toString();
+        String data = textInputData.getEditText().getText().toString();
 
         aluno.setNome(nome);
         aluno.setSobrenome(sobrenome);
@@ -202,19 +219,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         aluno.setData(data);
     }
 
-    private void adicionaValidacaoPadrao(final TextInputLayout textInputCampo) {
-        final ValidacaoPadrao validador = new ValidacaoPadrao(textInputCampo);
-        this.textInputCampo = textInputCampo;
-        this.campo = this.textInputCampo.getEditText();
-        validadores.add(validador);
-        campo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    validador.estaValido();
-                }
-            }
-        });
+    private void setaViews() {
+        textInputNome = findViewById(R.id.activity_formulario_aluno_nome);
+        textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
+        textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
+        textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
+        textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
     }
 
 }
