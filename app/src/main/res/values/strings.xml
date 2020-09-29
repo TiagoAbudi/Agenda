@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Agenda</string>
+    <string name="nome">Nome</string>
+    <string name="telefone">Telefone</string>
+    <string name="email">Email</string>
+    <string name="salvar_aluno">Salvar o aluno</string>
+    <string name="remover">Remover</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="listaDeAlunos">Lista de Alunos</string>
+    <string name="novoAluno">Novo Aluno</string>
+    <string name="volta_para_o_menu">Volta para o menu</string>
+    <string name="cancelar_o_cadastro">Cancelar o Cadastro</string>
+    <string name="foto_de_perfil">Foto de Perfil</string>
+    <string name="data">Data de Nascimento</string>
+    <string name="info_perfil">Foto de Perfil:</string>
+</resources>
