@@ -30,9 +30,9 @@ public class BD {
         ContentValues valores = new ContentValues();
         valores.put(COL_2, aluno.getNome());
         valores.put(COL_3, aluno.getSobrenome());
-        valores.put(COL_4, aluno.getTelefone());
-        valores.put(COL_5, aluno.getEmail());
-        valores.put(COL_6, aluno.getData());
+        valores.put(COL_4, aluno.getData());
+        valores.put(COL_5, aluno.getTelefone());
+        valores.put(COL_6, aluno.getEmail());
         bd.insert(NOME_TABELA, null, valores);
     }
 
@@ -41,9 +41,9 @@ public class BD {
         valores.put("_id", aluno.getId());
         valores.put("nome", aluno.getNome());
         valores.put("sobrenome", aluno.getSobrenome());
+        valores.put("data", aluno.getData());
         valores.put("telefone", aluno.getTelefone());
         valores.put("email", aluno.getEmail());
-        valores.put("data", aluno.getData());
 
         bd.update(NOME_TABELA, valores, "_id = ?", new String[]{"" + aluno.getId()});
     }
@@ -67,9 +67,9 @@ public class BD {
                 aluno.setId(cursor.getLong(0));
                 aluno.setNome(cursor.getString(1));
                 aluno.setSobrenome(cursor.getString(2));
-                aluno.setTelefone(cursor.getString(3));
-                aluno.setEmail(cursor.getString(4));
-                aluno.setData(cursor.getString(5));
+                aluno.setData(cursor.getString(3));
+                aluno.setTelefone(cursor.getString(4));
+                aluno.setEmail(cursor.getString(5));
                 list.add(aluno);
             } while (cursor.moveToNext());
         }

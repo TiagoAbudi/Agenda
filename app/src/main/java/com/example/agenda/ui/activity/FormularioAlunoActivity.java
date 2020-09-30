@@ -1,6 +1,7 @@
 package com.example.agenda.ui.activity;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,9 +38,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private Aluno aluno;
     private TextInputLayout textInputNome;
     private TextInputLayout textInputSobrenome;
+    private TextInputLayout textInputData;
     private TextInputLayout textInputTelefoneComDdd;
     private TextInputLayout textInputEmail;
-    private TextInputLayout textInputData;
 
 
     @Override
@@ -75,9 +76,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setaViews();
         iniciaCampoNome();
         iniciaCampoSobremome();
+        iniciaCampoData();
         iniciaCampoTelefone();
         iniciaCampoEmail();
-        iniciaCampoData();
     }
 
     private void carregaAluno() {
@@ -108,9 +109,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private void preencheCampos() {
         textInputNome.getEditText().setText(aluno.getNome());
         textInputSobrenome.getEditText().setText(aluno.getSobrenome());
+        textInputData.getEditText().setText(aluno.getData());
         textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
         textInputEmail.getEditText().setText(aluno.getEmail());
-        textInputData.getEditText().setText(aluno.getData());
     }
 
     private void adicionaValidacaoPadrao(final TextInputLayout textInputCampo) {
@@ -143,13 +144,31 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void iniciaCampoNome() {
-        TextInputLayout textInputPrimeiroNome = textInputNome;
-        adicionaValidacaoPadrao(textInputPrimeiroNome);
+        adicionaValidacaoPadrao(textInputNome);
     }
 
     private void iniciaCampoSobremome() {
-        TextInputLayout textInputUltimoNome = textInputSobrenome;
-        adicionaValidacaoPadrao(textInputUltimoNome);
+        adicionaValidacaoPadrao(textInputSobrenome);
+    }
+
+    private void iniciaCampoData() {
+        TextInputLayout textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
+        EditText campoData = textInputData.getEditText();
+        ValidaData validadorData = new ValidaData(textInputData);
+        validadores.add(validadorData);
+        FormataData formatadorData = new FormataData();
+        campoData.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String dataComFormatacao = campoData.getText().toString();
+                if (hasFocus) {
+                    String dataSemFormatacao = formatadorData.remove(dataComFormatacao);
+                    campoData.setText(dataSemFormatacao);
+                } else {
+                    validadorData.estaValido();
+                }
+            }
+        });
     }
 
     private void iniciaCampoTelefone() {
@@ -185,46 +204,26 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciaCampoData() {
-        TextInputLayout textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
-        EditText campoData = textInputData.getEditText();
-        ValidaData validadorData = new ValidaData(textInputData);
-        validadores.add(validadorData);
-        FormataData formatadorData = new FormataData();
-        campoData.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String dataComFormatacao = campoData.getText().toString();
-                if (hasFocus) {
-                    String dataSemFormatacao = formatadorData.remove(dataComFormatacao);
-                    campoData.setText(dataSemFormatacao);
-                } else {
-                    validadorData.estaValido();
-                }
-            }
-        });
-    }
-
     private void preencheAluno() {
         String nome = textInputNome.getEditText().getText().toString();
         String sobrenome = textInputSobrenome.getEditText().getText().toString();
+        String data = textInputData.getEditText().getText().toString();
         String telefone = textInputTelefoneComDdd.getEditText().getText().toString();
         String email = textInputEmail.getEditText().getText().toString();
-        String data = textInputData.getEditText().getText().toString();
 
         aluno.setNome(nome);
         aluno.setSobrenome(sobrenome);
+        aluno.setData(data);
         aluno.setTelefone(telefone);
         aluno.setEmail(email);
-        aluno.setData(data);
     }
 
     private void setaViews() {
         textInputNome = findViewById(R.id.activity_formulario_aluno_nome);
         textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
+        textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
         textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
-        textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
     }
 
 }

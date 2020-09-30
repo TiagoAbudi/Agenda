@@ -15,21 +15,29 @@ public class Aluno implements Serializable {
     private long _id;
     private String nome;
     private String sobrenome;
+    private String data;
     private String telefone;
     private String email;
-    private String data;
 
     @Ignore
-    public Aluno(String nome, String sobrenome, String telefone, String email, String data) {
+    public Aluno(String nome, String sobrenome, String data, String telefone, String email) {
         this.nome = nome;
         this.sobrenome = sobrenome;
+        this.data = data;
         this.telefone = telefone;
         this.email = email;
-        this.data = data;
     }
 
     public Aluno() {
 
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getSobrenome() {
@@ -40,12 +48,12 @@ public class Aluno implements Serializable {
         this.sobrenome = sobrenome;
     }
 
-    public String getNome() {
-        return nome;
+    public String getData() {
+        return data;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getTelefone() {
@@ -91,11 +99,5 @@ public class Aluno implements Serializable {
         return nome + " " + sobrenome;
     }
 
-    public String getData() {
-        return data;
-    }
 
-    public void setData(String data) {
-        this.data = data;
-    }
 }

@@ -87,7 +87,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imagem_de_perfil"
-            app:layout_constraintVertical_bias="0.97" />
+            app:layout_constraintVertical_bias="1" />
 
         <View
             android:id="@+id/divisor_sobrenome"
@@ -102,6 +102,18 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <View
+            android:id="@+id/divisor_data"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toTopOf="@id/activity_formulario_data_de_nascimento"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_formulario_aluno_sobrenome"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <View
             android:id="@+id/divisor_telefone"
             android:layout_width="0dp"
             android:layout_height="3dp"
@@ -110,7 +122,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_formulario_aluno_sobrenome"
+            app:layout_constraintTop_toBottomOf="@id/activity_formulario_data_de_nascimento"
             app:layout_constraintVertical_bias="1.0" />
 
         <View
@@ -126,18 +138,6 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <View
-            android:id="@+id/divisor_data"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:background="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toTopOf="@id/activity_formulario_data_de_nascimento"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_formulario_aluno_email"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <View
             android:id="@+id/divisor_final"
             android:layout_width="0dp"
             android:layout_height="3dp"
@@ -146,7 +146,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_formulario_data_de_nascimento"
+            app:layout_constraintTop_toBottomOf="@id/divisor_email"
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -155,6 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
+            android:nextFocusDown="@id/activity_formulario_aluno_sobrenome"
             app:layout_constraintBottom_toTopOf="@id/divisor_sobrenome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -177,7 +178,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/divisor_telefone"
+            android:nextFocusForward="@id/activity_formulario_data_de_nascimento"
+            app:layout_constraintBottom_toTopOf="@id/divisor_data"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/activity_formulario_aluno_nome"
@@ -192,15 +194,37 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activity_formulario_data_de_nascimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:nextFocusForward="@id/activity_formulario_aluno_telefone"
+            app:layout_constraintBottom_toTopOf="@id/divisor_telefone"
+            app:layout_constraintEnd_toEndOf="@id/activity_formulario_aluno_sobrenome"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/activity_formulario_aluno_sobrenome"
+            app:layout_constraintTop_toBottomOf="@id/divisor_data"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/data"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/activity_formulario_aluno_telefone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
+            android:nextFocusForward="@id/activity_formulario_aluno_email"
             app:layout_constraintBottom_toTopOf="@id/divisor_email"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/activity_formulario_data_de_nascimento"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/activity_formulario_aluno_sobrenome"
+            app:layout_constraintStart_toStartOf="@id/activity_formulario_data_de_nascimento"
             app:layout_constraintTop_toBottomOf="@id/divisor_telefone"
             app:layout_constraintVertical_bias="0.0">
 
@@ -217,8 +241,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/divisor_data"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:nextFocusForward="@id/activity_formulario_aluno_nome"
+            app:layout_constraintBottom_toTopOf="@id/divisor_final"
+            app:layout_constraintEnd_toEndOf="@id/activity_formulario_aluno_telefone"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/activity_formulario_aluno_telefone"
             app:layout_constraintTop_toBottomOf="@id/divisor_email"
@@ -232,25 +257,6 @@
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/activity_formulario_data_de_nascimento"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/divisor_final"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/activity_formulario_aluno_email"
-            app:layout_constraintTop_toBottomOf="@id/divisor_data"
-            app:layout_constraintVertical_bias="0.0">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/data"
-                android:textStyle="bold" />
-        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

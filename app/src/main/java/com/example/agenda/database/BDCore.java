@@ -10,9 +10,9 @@ public class BDCore extends SQLiteOpenHelper {
     protected static final String COL_1 = "_id";
     protected static final String COL_2 = "nome";
     protected static final String COL_3 = "sobrenome";
-    protected static final String COL_4 = "telefone";
-    protected static final String COL_5 = "email";
-    protected static final String COL_6 = "data";
+    protected static final String COL_4 = "data";
+    protected static final String COL_5 = "telefone";
+    protected static final String COL_6 = "email";
     private static final String NOME_BD = "Agenda";
     private static final int VERSAO_BD = 5;
 
@@ -38,7 +38,7 @@ public class BDCore extends SQLiteOpenHelper {
         }
         if (versaoAntiga < 6) {
             bd.execSQL("ALTER TABLE " + NOME_TABELA + " ADD COLUMN "
-                    + COL_6 + " data NOT NULL default '01/01/2020'");
+                    + COL_4 + " data NOT NULL default '01/01/2020'");
         }
     }
 }
