@@ -1,10 +1,13 @@
 package com.example.agenda.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.agenda.R;
@@ -17,6 +20,8 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     private final List<Aluno> alunos = new ArrayList<>();
     private final Context context;
+    private ImageView fotoDePerfil;
+    private String caminhoFoto;
 
     public ListaAlunosAdapter(Context context) {
         this.context = context;
@@ -48,8 +53,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
     private void vincula(View view, Aluno aluno) {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
         nome.setText(aluno.getNomeCompleto());
+
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
         telefone.setText(aluno.getTelefone());
+
+        fotoDePerfil = view.findViewById(R.id.imagem_de_perfil);
     }
 
     private View criaView(ViewGroup viewGroup) {

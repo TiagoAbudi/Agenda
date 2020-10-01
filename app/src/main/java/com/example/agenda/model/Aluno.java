@@ -109,4 +109,5 @@ public class Aluno implements Serializable {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
 }

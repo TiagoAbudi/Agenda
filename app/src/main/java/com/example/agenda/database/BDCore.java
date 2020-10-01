@@ -23,7 +23,7 @@ public class BDCore extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase bd) {
-        onUpgrade(bd, 6, VERSAO_BD);
+        onUpgrade(bd, 7, VERSAO_BD);
     }
 
     @Override
@@ -39,10 +39,10 @@ public class BDCore extends SQLiteOpenHelper {
         }
         if (versaoAntiga < 6) {
             bd.execSQL("ALTER TABLE " + NOME_TABELA + " ADD COLUMN "
-                    + COL_6 + " NOT NULL default '01/01/2020'");
+                    + COL_6 + " date NOT NULL default '01/01/2020'");
         }
         if(versaoAntiga < 7) {
-            bd.execSQL("ALTER TABLE "+NOME_TABELA+" ADD COLUMN "+COL_7+" NOT NULL");
+            bd.execSQL("ALTER TABLE "+NOME_TABELA+" ADD COLUMN "+COL_7+" text NOT NULL");
         }
     }
 }

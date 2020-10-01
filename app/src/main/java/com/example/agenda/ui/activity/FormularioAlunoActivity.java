@@ -50,7 +50,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputData;
     private TextInputLayout textInputTelefoneComDdd;
     private TextInputLayout textInputEmail;
-    private Button botaoFoto;
+    private ImageView fotoDePerfil;
     private String caminhoFoto;
 
 
@@ -218,6 +218,10 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
+    private void iniciaFotoDePerfil(){
+       ImageView campoFoto = fotoDePerfil;
+    }
+
     private void preencheAluno() {
         String nome = textInputNome.getEditText().getText().toString();
         String sobrenome = textInputSobrenome.getEditText().getText().toString();
@@ -238,10 +242,11 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
         textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
-        botaoFoto = (Button) findViewById(R.id.botao_foto);
+        fotoDePerfil = findViewById(R.id.imagem_de_perfil);
     }
 
     private void configuraBotaoFoto() {
+        Button botaoFoto = findViewById(R.id.botao_foto);
         botaoFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -258,13 +263,13 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODIGO_CAMERA) {
-            if (data != null) {
+            if (data == null) {
                 ImageView foto = findViewById(R.id.imagem_de_perfil);
                 int larguraFoto;
                 int alturaFoto;
                 larguraFoto = foto.getWidth();
                 alturaFoto = foto.getHeight();
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
                 Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, larguraFoto, alturaFoto, true);
                 foto.setImageBitmap(bitmapReduzido);
             }

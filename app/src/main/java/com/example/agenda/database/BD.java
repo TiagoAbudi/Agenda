@@ -48,19 +48,35 @@ public class BD {
         valores.put("email", aluno.getEmail());
         valores.put("foto", aluno.getFoto());
 
-        bd.update(NOME_TABELA, valores, "_id = ?", new String[]{"" + aluno.getId()});
+        bd.update(NOME_TABELA,
+                valores,
+                "_id = ?",
+                new String[]{"" + aluno.getId()});
     }
 
     public void deletar(Aluno aluno) {
-        bd.delete(NOME_TABELA, "_id =" + aluno.getId(), null);
+        bd.delete(NOME_TABELA,
+                "_id =" + aluno.getId(),
+                null);
     }
 
     public List<Aluno> buscar() {
         List<Aluno> list = new ArrayList<Aluno>();
-        String[] colunas = new String[]{COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
+        String[] colunas = new String[]{COL_1,
+                COL_2,
+                COL_3,
+                COL_4,
+                COL_5,
+                COL_6,
+                COL_7};
 
-        Cursor cursor = bd.query(NOME_TABELA, colunas, null,
-                null, null, null, "nome ASC");
+        Cursor cursor = bd.query(NOME_TABELA,
+                colunas,
+                null,
+                null,
+                null,
+                null,
+                "nome ASC");
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
