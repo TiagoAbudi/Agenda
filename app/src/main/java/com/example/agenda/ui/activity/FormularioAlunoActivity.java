@@ -1,15 +1,22 @@
 package com.example.agenda.ui.activity;
 
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
@@ -24,6 +31,7 @@ import com.example.agenda.valida.ValidacaoPadrao;
 import com.example.agenda.valida.Validador;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +40,7 @@ import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
+    public static final int CODIGO_CAMERA = 567;
     private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
     private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
     private final List<Validador> validadores = new ArrayList<>();
@@ -41,6 +50,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputData;
     private TextInputLayout textInputTelefoneComDdd;
     private TextInputLayout textInputEmail;
+    private Button botaoFoto;
+    private String caminhoFoto;
 
 
     @Override
@@ -49,6 +60,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario_aluno);
         inicializacaoDosCampos();
         carregaAluno();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     @Override
@@ -79,6 +92,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         iniciaCampoData();
         iniciaCampoTelefone();
         iniciaCampoEmail();
+        configuraBotaoFoto();
     }
 
     private void carregaAluno() {
@@ -224,6 +238,36 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
         textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
+        botaoFoto = (Button) findViewById(R.id.botao_foto);
     }
 
+    private void configuraBotaoFoto() {
+        botaoFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+                File arquivoFoto = new File(caminhoFoto);
+                abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                startActivityForResult(abreCamera, CODIGO_CAMERA);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODIGO_CAMERA) {
+            if (data != null) {
+                ImageView foto = findViewById(R.id.imagem_de_perfil);
+                int larguraFoto;
+                int alturaFoto;
+                larguraFoto = foto.getWidth();
+                alturaFoto = foto.getHeight();
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, larguraFoto, alturaFoto, true);
+                foto.setImageBitmap(bitmapReduzido);
+            }
+        }
+    }
 }

@@ -23,34 +23,47 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent">
 
-            <TextView
-                android:id="@+id/item_aluno_nome"
+            <ImageView
+                android:id="@+id/foto_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="24sp"
-                android:visibility="visible"
+                android:layout_margin="5dp"
+                android:background="@mipmap/ic_perfil"
+                android:contentDescription="@string/foto_de_perfil"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="Tiago" />
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/item_aluno_nome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/item_aluno_telefone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/foto_perfil"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Tiago Abudi" />
 
             <TextView
                 android:id="@+id/item_aluno_telefone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginStart="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/item_aluno_nome"
+                app:layout_constraintStart_toEndOf="@id/foto_perfil"
                 app:layout_constraintTop_toBottomOf="@id/item_aluno_nome"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="1234567859" />
+                tools:text="(44) 99154-0115" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

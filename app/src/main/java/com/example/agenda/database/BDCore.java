@@ -10,11 +10,12 @@ public class BDCore extends SQLiteOpenHelper {
     protected static final String COL_1 = "_id";
     protected static final String COL_2 = "nome";
     protected static final String COL_3 = "sobrenome";
-    protected static final String COL_4 = "data";
+    protected static final String COL_4 = "email";
     protected static final String COL_5 = "telefone";
-    protected static final String COL_6 = "email";
+    protected static final String COL_6 = "data";
+    protected static final String COL_7 = "foto";
     private static final String NOME_BD = "Agenda";
-    private static final int VERSAO_BD = 5;
+    private static final int VERSAO_BD = 7;
 
     public BDCore(Context context) {
         super(context, NOME_BD, null, VERSAO_BD);
@@ -22,7 +23,7 @@ public class BDCore extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase bd) {
-        onUpgrade(bd, 4, VERSAO_BD);
+        onUpgrade(bd, 6, VERSAO_BD);
     }
 
     @Override
@@ -38,7 +39,10 @@ public class BDCore extends SQLiteOpenHelper {
         }
         if (versaoAntiga < 6) {
             bd.execSQL("ALTER TABLE " + NOME_TABELA + " ADD COLUMN "
-                    + COL_4 + " data NOT NULL default '01/01/2020'");
+                    + COL_6 + " NOT NULL default '01/01/2020'");
+        }
+        if(versaoAntiga < 7) {
+            bd.execSQL("ALTER TABLE "+NOME_TABELA+" ADD COLUMN "+COL_7+" NOT NULL");
         }
     }
 }

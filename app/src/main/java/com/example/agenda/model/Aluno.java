@@ -18,14 +18,16 @@ public class Aluno implements Serializable {
     private String data;
     private String telefone;
     private String email;
+    private String foto;
 
     @Ignore
-    public Aluno(String nome, String sobrenome, String data, String telefone, String email) {
+    public Aluno(String nome, String sobrenome, String data, String telefone, String email, String foto) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.data = data;
         this.telefone = telefone;
         this.email = email;
+        this.foto = foto;
     }
 
     public Aluno() {
@@ -100,4 +102,11 @@ public class Aluno implements Serializable {
     }
 
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 }

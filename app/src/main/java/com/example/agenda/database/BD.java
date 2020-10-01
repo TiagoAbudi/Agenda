@@ -16,6 +16,7 @@ import static com.example.agenda.database.BDCore.COL_3;
 import static com.example.agenda.database.BDCore.COL_4;
 import static com.example.agenda.database.BDCore.COL_5;
 import static com.example.agenda.database.BDCore.COL_6;
+import static com.example.agenda.database.BDCore.COL_7;
 import static com.example.agenda.database.BDCore.NOME_TABELA;
 
 public class BD {
@@ -30,9 +31,10 @@ public class BD {
         ContentValues valores = new ContentValues();
         valores.put(COL_2, aluno.getNome());
         valores.put(COL_3, aluno.getSobrenome());
-        valores.put(COL_4, aluno.getData());
+        valores.put(COL_4, aluno.getEmail());
         valores.put(COL_5, aluno.getTelefone());
-        valores.put(COL_6, aluno.getEmail());
+        valores.put(COL_6, aluno.getData());
+        valores.put(COL_7, aluno.getFoto());
         bd.insert(NOME_TABELA, null, valores);
     }
 
@@ -44,6 +46,7 @@ public class BD {
         valores.put("data", aluno.getData());
         valores.put("telefone", aluno.getTelefone());
         valores.put("email", aluno.getEmail());
+        valores.put("foto", aluno.getFoto());
 
         bd.update(NOME_TABELA, valores, "_id = ?", new String[]{"" + aluno.getId()});
     }
@@ -54,7 +57,7 @@ public class BD {
 
     public List<Aluno> buscar() {
         List<Aluno> list = new ArrayList<Aluno>();
-        String[] colunas = new String[]{COL_1, COL_2, COL_3, COL_4, COL_5, COL_6};
+        String[] colunas = new String[]{COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
         Cursor cursor = bd.query(NOME_TABELA, colunas, null,
                 null, null, null, "nome ASC");
@@ -67,9 +70,10 @@ public class BD {
                 aluno.setId(cursor.getLong(0));
                 aluno.setNome(cursor.getString(1));
                 aluno.setSobrenome(cursor.getString(2));
-                aluno.setData(cursor.getString(3));
+                aluno.setEmail(cursor.getString(3));
                 aluno.setTelefone(cursor.getString(4));
-                aluno.setEmail(cursor.getString(5));
+                aluno.setData(cursor.getString(5));
+                aluno.setFoto(cursor.getString(6));
                 list.add(aluno);
             } while (cursor.moveToNext());
         }
