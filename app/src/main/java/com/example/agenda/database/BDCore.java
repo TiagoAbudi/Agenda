@@ -15,7 +15,7 @@ public class BDCore extends SQLiteOpenHelper {
     protected static final String COL_6 = "data";
     protected static final String COL_7 = "foto";
     private static final String NOME_BD = "Agenda";
-    private static final int VERSAO_BD = 7;
+    private static final int VERSAO_BD = 8;
 
     public BDCore(Context context) {
         super(context, NOME_BD, null, VERSAO_BD);
@@ -23,26 +23,18 @@ public class BDCore extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase bd) {
-        onUpgrade(bd, 7, VERSAO_BD);
+        bd.execSQL("CREATE TABLE " + NOME_TABELA + "(" + COL_1 + " integer PRIMARY KEY AUTOINCREMENT, "
+                + COL_2 + " text NOT NULL DEFAULT 'nome', "
+                + COL_3 + " text NOT NULL DEFAULT 'sobrenome', "
+                + COL_4 + " text NOT NULL DEFAULT 'email', "
+                + COL_5 + " text NOT NULL DEFAULT 'telefone', "
+                + COL_6 + "date NOT NULL DEFAULT '01/01/2020',"
+                + COL_7 + " text NOT NULL  DEFAULT 'foto');"
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase bd, int versaoAntiga, int versaoNova) {
-
-        if (versaoAntiga < 5) {
-            bd.execSQL("CREATE TABLE " + NOME_TABELA + "(" + COL_1 + " integer PRIMARY KEY AUTOINCREMENT, "
-                    + COL_2 + " text NOT NULL, "
-                    + COL_3 + " text NOT NULL, "
-                    + COL_4 + " text NOT NULL, "
-                    + COL_5 + " text NOT NULL);"
-            );
-        }
-        if (versaoAntiga < 6) {
-            bd.execSQL("ALTER TABLE " + NOME_TABELA + " ADD COLUMN "
-                    + COL_6 + " date NOT NULL default '01/01/2020'");
-        }
-        if(versaoAntiga < 7) {
-            bd.execSQL("ALTER TABLE "+NOME_TABELA+" ADD COLUMN "+COL_7+" text NOT NULL");
-        }
+        bd.execSQL("DROP TABLE Alnuos");
     }
 }

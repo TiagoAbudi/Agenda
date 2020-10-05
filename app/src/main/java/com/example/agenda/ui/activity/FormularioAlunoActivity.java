@@ -52,6 +52,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputEmail;
     private ImageView fotoDePerfil;
     private String caminhoFoto;
+    private Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 
     @Override
@@ -218,8 +219,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciaFotoDePerfil(){
-       ImageView campoFoto = fotoDePerfil;
+    private void iniciaFotoDePerfil() {
+        ImageView campoFoto = fotoDePerfil;
     }
 
     private void preencheAluno() {
@@ -250,7 +251,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         botaoFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
                 File arquivoFoto = new File(caminhoFoto);
                 abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
@@ -262,17 +262,21 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CODIGO_CAMERA) {
-            if (data == null) {
-                ImageView foto = findViewById(R.id.imagem_de_perfil);
-                int larguraFoto;
-                int alturaFoto;
-                larguraFoto = foto.getWidth();
-                alturaFoto = foto.getHeight();
-                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, larguraFoto, alturaFoto, true);
-                foto.setImageBitmap(bitmapReduzido);
-            }
+        if (resultCode == CODIGO_CAMERA) {
+            Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+            File arquivoFoto = new File(caminhoFoto);
+            abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+            ImageView foto = findViewById(R.id.imagem_de_perfil);
+            int larguraFoto;
+            int alturaFoto;
+            larguraFoto = foto.getWidth();
+            alturaFoto = foto.getHeight();
+            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, larguraFoto, alturaFoto, true);
+            foto.setImageBitmap(bitmapReduzido);
+            startActivityForResult(abreCamera, CODIGO_CAMERA);
+
         }
     }
 }

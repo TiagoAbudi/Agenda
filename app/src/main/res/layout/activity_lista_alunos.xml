@@ -28,7 +28,7 @@
         android:id="@+id/activity_lista_alunos_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_aluno"/>
+        tools:listitem="@layout/item_aluno" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
