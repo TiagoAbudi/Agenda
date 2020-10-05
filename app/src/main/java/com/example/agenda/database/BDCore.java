@@ -35,6 +35,6 @@ public class BDCore extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase bd, int versaoAntiga, int versaoNova) {
-        bd.execSQL("DROP TABLE Alnuos");
+        bd.execSQL("DROP TABLE Alunos");
     }
 }
