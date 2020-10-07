@@ -34,7 +34,7 @@ public class BD {
         valores.put(COL_4, aluno.getEmail());
         valores.put(COL_5, aluno.getTelefone());
         valores.put(COL_6, aluno.getData());
-        valores.put(COL_7, aluno.getFoto());
+        valores.put(COL_7, aluno.getFoto() == null ? "" : aluno.getFoto());
         bd.insert(NOME_TABELA, null, valores);
     }
 

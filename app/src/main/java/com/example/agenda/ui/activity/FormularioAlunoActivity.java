@@ -1,7 +1,9 @@
 package com.example.agenda.ui.activity;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,6 +20,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.agenda.R;
 import com.example.agenda.database.BD;
@@ -54,6 +58,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private String caminhoFoto;
     private Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+    {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +243,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         aluno.setEmail(email);
     }
 
+
     private void setaViews() {
         textInputNome = findViewById(R.id.activity_formulario_aluno_nome);
         textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
@@ -251,10 +258,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         botaoFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-                File arquivoFoto = new File(caminhoFoto);
-                abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-                startActivityForResult(abreCamera, CODIGO_CAMERA);
+                int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+                if (validaPermissao()) {
+                    caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+                    File arquivoFoto = new File(caminhoFoto);
+                    abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                    startActivityForResult(abreCamera, CODIGO_CAMERA);
+                } else {
+                    ActivityCompat.requestPermissions(FormularioAlunoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+                }
             }
         });
     }
@@ -263,7 +275,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == CODIGO_CAMERA) {
-            Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
             File arquivoFoto = new File(caminhoFoto);
             abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
@@ -278,5 +289,13 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             startActivityForResult(abreCamera, CODIGO_CAMERA);
 
         }
+    }
+
+    public boolean validaPermissao() {
+        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 }
