@@ -1,6 +1,9 @@
 package com.example.agenda.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +57,22 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
         telefone.setText(aluno.getTelefone());
+        if (!aluno.getFoto().equals("")) {
+            ImageView foto = view.findViewById(R.id.foto_perfil);
+            Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
+            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(270);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                    0,
+                    0,
+                    bitmapReduzido.getWidth(),
+                    bitmapReduzido.getHeight(),
+                    matrix,
+                    true);
+            foto.setImageBitmap(rotatedBitmap);
+        }
 
-        fotoDePerfil = view.findViewById(R.id.imagem_de_perfil);
     }
 
     private View criaView(ViewGroup viewGroup) {

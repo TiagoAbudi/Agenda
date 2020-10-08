@@ -61,6 +61,7 @@ public class BD {
     }
 
     public List<Aluno> buscar() {
+
         List<Aluno> list = new ArrayList<Aluno>();
         String[] colunas = new String[]{COL_1,
                 COL_2,

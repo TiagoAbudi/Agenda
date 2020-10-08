@@ -2,10 +2,12 @@ package com.example.agenda.ui.activity;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -67,6 +68,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario_aluno);
         inicializacaoDosCampos();
         carregaAluno();
+        validaPermissaoCamera();
+        validaPermissaoLerArquivos();
+        validaPermissaoEscreverArquivos();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
     }
@@ -133,6 +137,19 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputData.getEditText().setText(aluno.getData());
         textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
         textInputEmail.getEditText().setText(aluno.getEmail());
+        ImageView foto = findViewById(R.id.imagem_de_perfil);
+        Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
+        Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(270);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                0,
+                0,
+                bitmapReduzido.getWidth(),
+                bitmapReduzido.getHeight(),
+                matrix,
+                true);
+        foto.setImageBitmap(rotatedBitmap);
     }
 
     private void adicionaValidacaoPadrao(final TextInputLayout textInputCampo) {
@@ -225,22 +242,20 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciaFotoDePerfil() {
-        ImageView campoFoto = fotoDePerfil;
-    }
-
     private void preencheAluno() {
         String nome = textInputNome.getEditText().getText().toString();
         String sobrenome = textInputSobrenome.getEditText().getText().toString();
         String data = textInputData.getEditText().getText().toString();
         String telefone = textInputTelefoneComDdd.getEditText().getText().toString();
         String email = textInputEmail.getEditText().getText().toString();
+        String foto = caminhoFoto;
 
         aluno.setNome(nome);
         aluno.setSobrenome(sobrenome);
         aluno.setData(data);
         aluno.setTelefone(telefone);
         aluno.setEmail(email);
+        aluno.setFoto(foto);
     }
 
 
@@ -258,44 +273,71 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         botaoFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int MY_PERMISSIONS_REQUEST_CAMERA = 0;
-                if (validaPermissao()) {
-                    caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-                    File arquivoFoto = new File(caminhoFoto);
-                    abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-                    startActivityForResult(abreCamera, CODIGO_CAMERA);
-                } else {
-                    ActivityCompat.requestPermissions(FormularioAlunoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-                }
+                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+                File arquivoFoto = new File(caminhoFoto);
+                abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                startActivityForResult(abreCamera, CODIGO_CAMERA);
             }
         });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == CODIGO_CAMERA) {
-            caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-            File arquivoFoto = new File(caminhoFoto);
-            abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-            ImageView foto = findViewById(R.id.imagem_de_perfil);
-            int larguraFoto;
-            int alturaFoto;
-            larguraFoto = foto.getWidth();
-            alturaFoto = foto.getHeight();
-            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, larguraFoto, alturaFoto, true);
-            foto.setImageBitmap(bitmapReduzido);
-            startActivityForResult(abreCamera, CODIGO_CAMERA);
-
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CODIGO_CAMERA) {
+                ImageView foto = (ImageView) findViewById(R.id.imagem_de_perfil);
+                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(270);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                        0,
+                        0,
+                        bitmapReduzido.getWidth(),
+                        bitmapReduzido.getHeight(),
+                        matrix,
+                        true);
+                foto.setImageBitmap(rotatedBitmap);
+            }
         }
     }
 
-    public boolean validaPermissao() {
+
+    public boolean validaPermissaoCamera() {
+        int PERMISSOES_CAMERA = 0;
         if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            return true;
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    PERMISSOES_CAMERA);
+            return false;
         }
-        return false;
+        return true;
     }
+
+    public boolean validaPermissaoLerArquivos() {
+        int PERMISSOES_LER = 0;
+        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSOES_LER);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validaPermissaoEscreverArquivos() {
+        int PERMISSOES_ESCREVER = 0;
+        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSOES_ESCREVER);
+            return false;
+        }
+        return true;
+    }
+
 }

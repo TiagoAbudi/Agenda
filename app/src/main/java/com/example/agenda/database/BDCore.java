@@ -23,7 +23,6 @@ public class BDCore extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase bd) {
-//        bd.execSQL("DROP TABLE IF EXISTS " + NOME_TABELA + ";");
         bd.execSQL("CREATE TABLE " + NOME_TABELA + "" +
                 "( " + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_2 + " TEXT NOT NULL, "
