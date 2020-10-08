@@ -137,19 +137,25 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputData.getEditText().setText(aluno.getData());
         textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
         textInputEmail.getEditText().setText(aluno.getEmail());
-        ImageView foto = findViewById(R.id.imagem_de_perfil);
-        Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
-        Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(270);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
-                0,
-                0,
-                bitmapReduzido.getWidth(),
-                bitmapReduzido.getHeight(),
-                matrix,
-                true);
-        foto.setImageBitmap(rotatedBitmap);
+        preencheCampoFoto();
+    }
+
+    private void preencheCampoFoto() {
+        if (!aluno.getFoto().equals("")) {
+            ImageView foto = findViewById(R.id.imagem_de_perfil);
+            Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
+            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(270);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                    0,
+                    0,
+                    bitmapReduzido.getWidth(),
+                    bitmapReduzido.getHeight(),
+                    matrix,
+                    true);
+            foto.setImageBitmap(rotatedBitmap);
+        }
     }
 
     private void adicionaValidacaoPadrao(final TextInputLayout textInputCampo) {
