@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,10 +125,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         bd = new BD(this);
         if (aluno.temIdValido()) {
             bd.atualizar(aluno);
+            Toast toast = Toast.makeText(this, "Cadastro atualizado!", Toast.LENGTH_SHORT);
+            toast.show();
         }
         if (aluno.naoTemIdValido()) {
             bd.inserir(aluno);
+            Toast toast = Toast.makeText(this, "Cadastro concluído!", Toast.LENGTH_SHORT);
+            toast.show();
         }
+
         voltaParaListaDeAlunos();
     }
 
@@ -144,6 +150,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         if (!aluno.getFoto().equals("")) {
             ImageView foto = findViewById(R.id.imagem_de_perfil);
             Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
+            caminhoFoto = aluno.getFoto();
             Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
             Matrix matrix = new Matrix();
             matrix.postRotate(270);

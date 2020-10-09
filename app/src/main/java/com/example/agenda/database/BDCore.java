@@ -30,7 +30,7 @@ public class BDCore extends SQLiteOpenHelper {
                 + COL_4 + " TEXT NOT NULL, "
                 + COL_5 + " TEXT NOT NULL, "
                 + COL_6 + " TEXT NOT NULL DEFAULT '01/01/2020', "
-                + COL_7 + " TEXT NOT NULL DEFAULT 'foto')");
+                + COL_7 + " TEXT )");
     }
 
     @Override

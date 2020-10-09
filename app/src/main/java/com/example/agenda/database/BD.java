@@ -34,7 +34,7 @@ public class BD {
         valores.put(COL_4, aluno.getEmail());
         valores.put(COL_5, aluno.getTelefone());
         valores.put(COL_6, aluno.getData());
-        valores.put(COL_7, aluno.getFoto() == null ? "" : aluno.getFoto());
+        valores.put(COL_7, (aluno.getFoto() == null) ? "" : aluno.getFoto());
         bd.insert(NOME_TABELA, null, valores);
     }
 
@@ -46,7 +46,7 @@ public class BD {
         valores.put("data", aluno.getData());
         valores.put("telefone", aluno.getTelefone());
         valores.put("email", aluno.getEmail());
-        valores.put("foto", aluno.getFoto());
+        valores.put("foto", (aluno.getFoto() == null) ? "" : aluno.getFoto());
 
         bd.update(NOME_TABELA,
                 valores,

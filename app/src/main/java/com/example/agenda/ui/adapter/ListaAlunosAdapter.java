@@ -19,8 +19,9 @@ import java.util.List;
 
 public class ListaAlunosAdapter extends BaseAdapter {
 
-    private final List<Aluno> alunos = new ArrayList<>();
+    private final List<Aluno> alunoLista = new ArrayList<>();
     private final Context context;
+    private Aluno aluno;
     private ImageView fotoDePerfil;
     private String caminhoFoto;
 
@@ -30,36 +31,41 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return alunos.size();
+        return alunoLista.size();
     }
 
     @Override
     public Aluno getItem(int posicao) {
-        return alunos.get(posicao);
+        return alunoLista.get(posicao);
     }
 
     @Override
     public long getItemId(int posicao) {
-        return alunos.get(posicao).getId();
+        return alunoLista.get(posicao).getId();
     }
 
     @Override
     public View getView(int posicao, View view, ViewGroup viewGroup) {
         View viewCriada = criaView(viewGroup);
-        Aluno alunoDevolvido = alunos.get(posicao);
+        Aluno alunoDevolvido = alunoLista.get(posicao);
         vincula(viewCriada, alunoDevolvido);
         return viewCriada;
     }
 
-    private void vincula(View view, Aluno aluno) {
+    private void vincula(View view, Aluno alunos) {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
-        nome.setText(aluno.getNomeCompleto());
+        nome.setText(alunos.getNomeCompleto());
 
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
-        telefone.setText(aluno.getTelefone());
-        if (!aluno.getFoto().equals("")) {
+        telefone.setText(alunos.getTelefone());
+
+        setaFotoDePerfil(view, alunos);
+    }
+
+    private void setaFotoDePerfil(View view, Aluno alunos) {
+        if (!alunos.getFoto().equals("")) {
             ImageView foto = view.findViewById(R.id.foto_perfil);
-            Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
+            Bitmap bitmap = BitmapFactory.decodeFile(alunos.getFoto());
             Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
             Matrix matrix = new Matrix();
             matrix.postRotate(270);
@@ -72,7 +78,6 @@ public class ListaAlunosAdapter extends BaseAdapter {
                     true);
             foto.setImageBitmap(rotatedBitmap);
         }
-
     }
 
     private View criaView(ViewGroup viewGroup) {
@@ -82,13 +87,13 @@ public class ListaAlunosAdapter extends BaseAdapter {
     }
 
     public void atualiza(List<Aluno> alunos) {
-        this.alunos.clear();
-        this.alunos.addAll(alunos);
+        this.alunoLista.clear();
+        this.alunoLista.addAll(alunos);
         notifyDataSetChanged();
     }
 
     public void remove(Aluno aluno) {
-        alunos.remove(aluno);
+        alunoLista.remove(aluno);
         notifyDataSetChanged();
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.agenda.database.BD;
 import com.example.agenda.model.Aluno;
@@ -30,6 +31,8 @@ public class ListaAlunosView {
                             (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                     Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
                     remove(alunoEscolhido);
+                    Toast toast = Toast.makeText(context, "Aluno removido", Toast.LENGTH_SHORT);
+                    toast.show();
                 })
                 .setNegativeButton("Nâo", null)
                 .show();

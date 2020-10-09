@@ -107,12 +107,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.volta_menu) {
-            voltaParaOMenu();
+        switch (item.getItemId()) {
+            case R.id.volta_menu:
+                voltaParaOMenu();
+                break;
+            case R.id.menu_baixar_provas:
+                vaiParaProvas();
+                break;
         }
-        finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void vaiParaProvas() {
+        Intent vaiParaProvas = new Intent(this, ProvasActivity.class);
+        startActivity(vaiParaProvas);
     }
 
     public void voltaParaOMenu() {
