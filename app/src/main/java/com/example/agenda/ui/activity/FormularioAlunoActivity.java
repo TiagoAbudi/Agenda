@@ -1,10 +1,9 @@
 package com.example.agenda.ui.activity;
 
 
-import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -22,8 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.agenda.R;
 import com.example.agenda.database.BD;
@@ -69,9 +66,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario_aluno);
         inicializacaoDosCampos();
         carregaAluno();
-        validaPermissaoCamera();
-        validaPermissaoLerArquivos();
-        validaPermissaoEscreverArquivos();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
     }
@@ -92,7 +86,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             }
         }
         if (itemId == R.id.activity_formulario_aluno_menu_cancelar) {
-            finish();
+            new AlertDialog
+                    .Builder(this)
+                    .setTitle("Cancelando cadastro")
+                    .setMessage("Tem certeza que deseja cancelar o cadastro? Todas as alterções não salvas serão descartadas")
+                    .setPositiveButton("Sim", (dialogInterface, i) -> {
+                        finish();
+                    })
+                    .setNegativeButton("Nâo", null)
+                    .show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,6 +107,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         iniciaCampoTelefone();
         iniciaCampoEmail();
         configuraBotaoFoto();
+//        configuraBotaoEscolheFoto();
     }
 
     private void carregaAluno() {
@@ -294,6 +297,19 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
+//    private void configuraBotaoEscolheFoto() {
+//        Button botaoEscolheFoto = findViewById(R.id.botao_escolher_foto);
+//        botaoEscolheFoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+//                File arquivoFoto = new File(caminhoFoto);
+//                abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+//                startActivityForResult(abreCamera, CODIGO_CAMERA);
+//            }
+//        });
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -314,43 +330,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
                 foto.setImageBitmap(rotatedBitmap);
             }
         }
-    }
-
-
-    public boolean validaPermissaoCamera() {
-        int PERMISSOES_CAMERA = 0;
-        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSOES_CAMERA);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean validaPermissaoLerArquivos() {
-        int PERMISSOES_LER = 0;
-        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSOES_LER);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean validaPermissaoEscreverArquivos() {
-        int PERMISSOES_ESCREVER = 0;
-        if (ContextCompat.checkSelfPermission(FormularioAlunoActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(FormularioAlunoActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSOES_ESCREVER);
-            return false;
-        }
-        return true;
     }
 
 }

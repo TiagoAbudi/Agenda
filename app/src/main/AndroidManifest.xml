@@ -15,8 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.activity.DetalhesProvaActivity"></activity>
-        <activity android:name=".ui.activity.ProvasActivity" />
         <activity android:name=".ui.activity.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

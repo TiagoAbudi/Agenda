@@ -1,12 +1,16 @@
 package com.example.agenda.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.agenda.R;
 
@@ -18,6 +22,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
         setTitle(TITULO_APPBAR);
+        validaPermissoes();
         botaoVaiParaALista();
         vaiParaOFormulario();
     }
@@ -50,6 +55,34 @@ public class MenuActivity extends AppCompatActivity {
 
     private void abreFormularioModoInsereAluno() {
         startActivity(new Intent(this, FormularioAlunoActivity.class));
+    }
+
+    public boolean validaPermissoes() {
+        int PERMISSOES_CAMERA = 0;
+        int PERMISSOES_LER = 0;
+        int PERMISSOES_ESCREVER = 0;
+        if (ContextCompat.checkSelfPermission(MenuActivity.this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MenuActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    PERMISSOES_CAMERA);
+            return false;
+        }
+        if (ContextCompat.checkSelfPermission(MenuActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MenuActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSOES_LER);
+            return false;
+        }
+        if (ContextCompat.checkSelfPermission(MenuActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MenuActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSOES_ESCREVER);
+            return false;
+        }
+        return true;
     }
 
 }

@@ -7,7 +7,4 @@
         android:title="@string/volta_para_o_menu"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_baixar_provas"
-        android:title="@string/baixar_provas" />
 </menu>

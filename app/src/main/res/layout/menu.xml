@@ -4,14 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    android:orientation="vertical">
+    android:layout_margin="8dp">
 
     <Button
         android:id="@+id/lista_de_alunos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="10dp"
         android:text="@string/listaDeAlunos"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,11 +32,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/merchandising"
+        android:id="@+id/software_By_Solumobi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Software by Solumobi"
+        android:text="@string/software_by_solumobi"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
