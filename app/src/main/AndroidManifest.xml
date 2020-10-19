@@ -15,10 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design"
         tools:ignore="AllowBackup">
+        <activity android:name=".ui.activity.RedefineSenhaActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.CadastroActivity" />
         <activity android:name=".ui.activity.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

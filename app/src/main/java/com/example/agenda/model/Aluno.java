@@ -19,15 +19,39 @@ public class Aluno implements Serializable {
     private String telefone;
     private String email;
     private String foto;
+    private String cep;
+    private String bairro;
+    private String rua;
+    private String numero;
+    private String estado;
+    private String cidade;
 
     @Ignore
-    public Aluno(String nome, String sobrenome, String data, String telefone, String email, String foto) {
+    public Aluno(String nome,
+                 String sobrenome,
+                 String data,
+                 String telefone,
+                 String email,
+                 String foto,
+                 String cep,
+                 String bairro,
+                 String rua,
+                 String numero,
+                 String estado,
+                 String cidade) {
+
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.data = data;
         this.telefone = telefone;
         this.email = email;
         this.foto = foto;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.rua = rua;
+        this.numero = numero;
+        this.estado = estado;
+        this.cidade = cidade;
     }
 
     public Aluno() {
@@ -108,6 +132,54 @@ public class Aluno implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
 }

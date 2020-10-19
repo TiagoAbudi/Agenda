@@ -24,9 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
 import com.example.agenda.database.BD;
+import com.example.agenda.formatter.FormataCep;
 import com.example.agenda.formatter.FormataData;
 import com.example.agenda.formatter.FormataTelefoneComDdd;
 import com.example.agenda.model.Aluno;
+import com.example.agenda.valida.ValidaCep;
 import com.example.agenda.valida.ValidaData;
 import com.example.agenda.valida.ValidaEmail;
 import com.example.agenda.valida.ValidaTelefoneComDdd;
@@ -52,6 +54,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputSobrenome;
     private TextInputLayout textInputData;
     private TextInputLayout textInputTelefoneComDdd;
+    private TextInputLayout textInputCep;
+    private TextInputLayout textInputBairro;
+    private TextInputLayout textInputRua;
+    private TextInputLayout textInputNumero;
+    private TextInputLayout textInputEstado;
+    private TextInputLayout textInputCidade;
     private TextInputLayout textInputEmail;
     private ImageView fotoDePerfil;
     private String caminhoFoto;
@@ -105,6 +113,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         iniciaCampoSobremome();
         iniciaCampoData();
         iniciaCampoTelefone();
+        iniciaCampoCep();
+        iniciaCampoBairro();
+        iniciaCampoRua();
+        iniciaCampoNumero();
+        iniciaCampoEstado();
+        iniciaCampoCidade();
         iniciaCampoEmail();
         configuraBotaoFoto();
 //        configuraBotaoEscolheFoto();
@@ -145,6 +159,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputSobrenome.getEditText().setText(aluno.getSobrenome());
         textInputData.getEditText().setText(aluno.getData());
         textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
+        textInputCep.getEditText().setText(aluno.getCep());
+        textInputBairro.getEditText().setText(aluno.getBairro());
+        textInputRua.getEditText().setText(aluno.getRua());
+        textInputNumero.getEditText().setText(aluno.getNumero());
+        textInputEstado.getEditText().setText(aluno.getEstado());
+        textInputCidade.getEditText().setText(aluno.getCidade());
         textInputEmail.getEditText().setText(aluno.getEmail());
         preencheCampoFoto();
     }
@@ -244,6 +264,46 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         });
     }
 
+    private void iniciaCampoCep() {
+        TextInputLayout textInputCep = findViewById(R.id.activity_formulario_cep);
+        EditText campoCep = textInputCep.getEditText();
+        ValidaCep validadorCep = new ValidaCep(textInputCep);
+        validadores.add(validadorCep);
+        FormataCep formatadorCep = new FormataCep();
+        campoCep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String cepComFormatacao = campoCep.getText().toString();
+                if (hasFocus) {
+                    String cepSemFormatacao = formatadorCep.remove(cepComFormatacao);
+                    campoCep.setText(cepSemFormatacao);
+                } else {
+                    validadorCep.estaValido();
+                }
+            }
+        });
+    }
+
+    private void iniciaCampoBairro() {
+        adicionaValidacaoPadrao(textInputBairro);
+    }
+
+    private void iniciaCampoRua() {
+        adicionaValidacaoPadrao(textInputRua);
+    }
+
+    private void iniciaCampoNumero() {
+        adicionaValidacaoPadrao(textInputNumero);
+    }
+
+    private void iniciaCampoEstado() {
+        adicionaValidacaoPadrao(textInputEstado);
+    }
+
+    private void iniciaCampoCidade() {
+        adicionaValidacaoPadrao(textInputCidade);
+    }
+
     private void iniciaCampoEmail() {
         EditText campoEmail = textInputEmail.getEditText();
         ValidaEmail validadorEmail = new ValidaEmail(textInputEmail);
@@ -263,6 +323,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         String sobrenome = textInputSobrenome.getEditText().getText().toString();
         String data = textInputData.getEditText().getText().toString();
         String telefone = textInputTelefoneComDdd.getEditText().getText().toString();
+        String cep = textInputCep.getEditText().getText().toString();
+        String bairro = textInputBairro.getEditText().getText().toString();
+        String rua = textInputRua.getEditText().getText().toString();
+        String numero = textInputNumero.getEditText().getText().toString();
+        String estado = textInputEstado.getEditText().getText().toString();
+        String cidade = textInputCidade.getEditText().getText().toString();
         String email = textInputEmail.getEditText().getText().toString();
         String foto = caminhoFoto;
 
@@ -270,6 +336,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         aluno.setSobrenome(sobrenome);
         aluno.setData(data);
         aluno.setTelefone(telefone);
+        aluno.setCep(cep);
+        aluno.setBairro(bairro);
+        aluno.setRua(rua);
+        aluno.setNumero(numero);
+        aluno.setEstado(estado);
+        aluno.setCidade(cidade);
         aluno.setEmail(email);
         aluno.setFoto(foto);
     }
@@ -280,6 +352,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
         textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
+        textInputCep = findViewById(R.id.activity_formulario_cep);
+        textInputBairro = findViewById(R.id.activity_formulario_aluno_bairro);
+        textInputRua = findViewById(R.id.activity_formulario_aluno_rua);
+        textInputNumero = findViewById(R.id.activity_formulario_aluno_numero);
+        textInputEstado = findViewById(R.id.activity_formulario_aluno_estado);
+        textInputCidade = findViewById(R.id.activity_formulario_aluno_cidade);
         textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
         fotoDePerfil = findViewById(R.id.imagem_de_perfil);
     }
@@ -315,7 +393,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CODIGO_CAMERA) {
-                ImageView foto = (ImageView) findViewById(R.id.imagem_de_perfil);
+                ImageView foto = findViewById(R.id.imagem_de_perfil);
                 Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
                 Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
                 Matrix matrix = new Matrix();

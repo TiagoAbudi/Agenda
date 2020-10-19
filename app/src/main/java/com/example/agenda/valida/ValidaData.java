@@ -11,6 +11,7 @@ public class ValidaData implements Validador {
     private final EditText campoData;
     private final ValidacaoPadrao validacaoPadrao;
     private final FormataData formatador = new FormataData();
+    private static final String ERRO = "Data inválida";
 
     public ValidaData(TextInputLayout textInputDataComFormatacao) {
         this.textInputData = textInputDataComFormatacao;
@@ -21,7 +22,7 @@ public class ValidaData implements Validador {
     private boolean validaData(String dataComFormatacao) {
         int digitos = dataComFormatacao.length();
         if (digitos < 7 || digitos > 8) {
-            textInputData.setError("A data deve ser inserida assim: DDMMAAAA");
+            textInputData.setError(ERRO);
             return false;
         }
         return true;

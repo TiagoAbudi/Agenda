@@ -14,8 +14,14 @@ public class BDCore extends SQLiteOpenHelper {
     protected static final String COL_5 = "telefone";
     protected static final String COL_6 = "data";
     protected static final String COL_7 = "foto";
+    protected static final String COL_8 = "cep";
+    protected static final String COL_9 = "bairro";
+    protected static final String COL_10 = "rua";
+    protected static final String COL_11 = "numero";
+    protected static final String COL_12 = "estado";
+    protected static final String COL_13 = "cidade";
     private static final String NOME_BD = "Agenda";
-    private static final int VERSAO_BD = 10;
+    private static final int VERSAO_BD = 11;
 
     public BDCore(Context context) {
         super(context, NOME_BD, null, VERSAO_BD);
@@ -29,8 +35,14 @@ public class BDCore extends SQLiteOpenHelper {
                 + COL_3 + " TEXT NOT NULL, "
                 + COL_4 + " TEXT NOT NULL, "
                 + COL_5 + " TEXT NOT NULL, "
-                + COL_6 + " TEXT NOT NULL DEFAULT '01/01/2020', "
-                + COL_7 + " TEXT )");
+                + COL_6 + " TEXT NOT NULL, "
+                + COL_7 + " TEXT NOT NULL, "
+                + COL_8 + " TEXT NOT NULL, "
+                + COL_9 + " TEXT NOT NULL, "
+                + COL_10 + " TEXT NOT NULL, "
+                + COL_11 + " TEXT NOT NULL, "
+                + COL_12 + " TEXT NOT NULL, "
+                + COL_13 + " TEXT NOT NULL)");
     }
 
     @Override

@@ -19,4 +19,18 @@
     <string name="data_prova">Data</string>
     <string name="software_by_solumobi">Software by Solumobi</string>
     <string name="escolher_foto">Escolher foto</string>
+    <string name="email_login">E-mail</string>
+    <string name="senha_login">Senha</string>
+    <string name="botao_login">LOGIN</string>
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="esqueci_a_senha">Esqueci a senha</string>
+    <string name="esqueceu_a_senha">Esqueceu a senha?</string>
+    <string name="confirmar_senha">Confirmar senha</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="cep">CEP</string>
+    <string name="cidade">Cidade</string>
+    <string name="rua">Rua</string>
+    <string name="estado">Estado</string>
+    <string name="bairro">Bairro</string>
+    <string name="numero">Nº</string>
 </resources>

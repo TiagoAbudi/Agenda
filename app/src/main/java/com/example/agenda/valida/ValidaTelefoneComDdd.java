@@ -7,7 +7,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ValidaTelefoneComDdd implements Validador {
 
-    public static final String QUANTIDADE_DIGITOS = "Telefone deve ter entre 10 a 11 dígitos";
+    private static final String ERRO = "Telefone inválido";
     private final TextInputLayout textInputTelefoneComDdd;
     private final EditText campoTelefoneComDdd;
     private final ValidacaoPadrao validacaoPadrao;
@@ -22,7 +22,7 @@ public class ValidaTelefoneComDdd implements Validador {
     private boolean validaEntreDezOuOnzeDigitos(String telefoneComDdd) {
         int digitos = telefoneComDdd.length();
         if (digitos < 10 || digitos > 11) {
-            textInputTelefoneComDdd.setError(QUANTIDADE_DIGITOS);
+            textInputTelefoneComDdd.setError(ERRO);
             return false;
         }
         return true;

@@ -8,7 +8,7 @@ public class ValidacaoPadrao implements Validador {
 
     private static final String CAMPO_OBRIGATORIO = "Campo obrigatório";
     private final TextInputLayout textInputCampo;
-    private EditText campo;
+    private final EditText campo;
 
     public ValidacaoPadrao(TextInputLayout textInputCampo) {
         this.textInputCampo = textInputCampo;
