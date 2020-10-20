@@ -24,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
 import com.example.agenda.database.BD;
+import com.example.agenda.domain.Address;
+import com.example.agenda.domain.Util;
+import com.example.agenda.domain.ZipCodeListener;
 import com.example.agenda.formatter.FormataCep;
 import com.example.agenda.formatter.FormataData;
 import com.example.agenda.formatter.FormataTelefoneComDdd;
@@ -50,6 +53,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
     private final List<Validador> validadores = new ArrayList<>();
     private Aluno aluno;
+    private EditText campoCep;
     private TextInputLayout textInputNome;
     private TextInputLayout textInputSobrenome;
     private TextInputLayout textInputData;
@@ -63,6 +67,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputEmail;
     private ImageView fotoDePerfil;
     private String caminhoFoto;
+    private Util util;
     private Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
     {
@@ -76,6 +81,36 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         carregaAluno();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+
+        campoCep = (EditText) findViewById(R.id.activity_formulario_aluno_edit_text_cep);
+        campoCep.addTextChangedListener(new ZipCodeListener(this));
+        util = new Util(this,
+                R.id.activity_formulario_aluno_edit_text_cep,
+                R.id.activity_formulario_aluno_edit_text_bairro,
+                R.id.activity_formulario_aluno_edit_text_rua,
+                R.id.activity_formulario_aluno_edit_text_numero,
+                R.id.activity_formulario_aluno_edit_text_estado,
+                R.id.activity_formulario_aluno_edit_text_cidade);
+
+    }
+
+    public String getUriZipCode() {
+        return "https://viacep.com.br/ws/" + campoCep.getText() + "/json/";
+    }
+
+    public void lockFields(boolean isToLock) {
+        util.lockFields(isToLock);
+    }
+
+    public void setDataViews(Address address) {
+        setField(R.id.activity_formulario_aluno_edit_text_rua, address.getLogradouro());
+        setField(R.id.activity_formulario_aluno_edit_text_bairro, address.getBairro());
+        setField(R.id.activity_formulario_aluno_edit_text_estado, address.getUf());
+        setField(R.id.activity_formulario_aluno_edit_text_cidade, address.getLocalidade());
+    }
+
+    private void setField(int id, String data) {
+        ((EditText) findViewById(id)).setText(data);
     }
 
     @Override
@@ -231,6 +266,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         ValidaData validadorData = new ValidaData(textInputData);
         validadores.add(validadorData);
         FormataData formatadorData = new FormataData();
+        assert campoData != null;
         campoData.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -250,6 +286,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         ValidaTelefoneComDdd validadorTelefone = new ValidaTelefoneComDdd(textInputTelefoneComDdd);
         validadores.add(validadorTelefone);
         FormataTelefoneComDdd formatadorTelefone = new FormataTelefoneComDdd();
+        assert campoTelefoneComDdd != null;
         campoTelefoneComDdd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -265,11 +302,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void iniciaCampoCep() {
-        TextInputLayout textInputCep = findViewById(R.id.activity_formulario_cep);
+        TextInputLayout textInputCep = findViewById(R.id.activity_formulario_aluno_cep);
         EditText campoCep = textInputCep.getEditText();
         ValidaCep validadorCep = new ValidaCep(textInputCep);
         validadores.add(validadorCep);
         FormataCep formatadorCep = new FormataCep();
+        assert campoCep != null;
         campoCep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -352,7 +390,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
         textInputData = findViewById(R.id.activity_formulario_data_de_nascimento);
         textInputTelefoneComDdd = findViewById(R.id.activity_formulario_aluno_telefone);
-        textInputCep = findViewById(R.id.activity_formulario_cep);
+        textInputCep = findViewById(R.id.activity_formulario_aluno_cep);
         textInputBairro = findViewById(R.id.activity_formulario_aluno_bairro);
         textInputRua = findViewById(R.id.activity_formulario_aluno_rua);
         textInputNumero = findViewById(R.id.activity_formulario_aluno_numero);

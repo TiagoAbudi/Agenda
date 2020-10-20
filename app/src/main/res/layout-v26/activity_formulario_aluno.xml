@@ -170,7 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_formulario_cep"
+                app:layout_constraintTop_toBottomOf="@id/activity_formulario_aluno_cep"
                 app:layout_constraintVertical_bias="1.0" />
 
             <View
@@ -310,7 +310,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/activity_formulario_cep"
+                android:id="@+id/activity_formulario_aluno_cep"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -322,7 +322,8 @@
                 app:layout_constraintTop_toBottomOf="@id/divisor_cep"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_cep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/cep"
@@ -343,10 +344,11 @@
                 android:nextFocusForward="@id/activity_formulario_aluno_email"
                 app:layout_constraintBottom_toTopOf="@id/divisor_rua"
                 app:layout_constraintEnd_toEndOf="@id/activity_formulario_aluno_nome"
-                app:layout_constraintStart_toEndOf="@id/activity_formulario_cep"
+                app:layout_constraintStart_toEndOf="@id/activity_formulario_aluno_cep"
                 app:layout_constraintTop_toBottomOf="@id/divisor_cep">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_bairro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/bairro"
@@ -370,7 +372,8 @@
                 app:layout_constraintTop_toBottomOf="@id/divisor_rua"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_rua"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/rua"
@@ -392,7 +395,8 @@
                 app:layout_constraintStart_toEndOf="@id/activity_formulario_aluno_rua"
                 app:layout_constraintTop_toBottomOf="@id/divisor_rua">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_numero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/numero"
@@ -417,7 +421,8 @@
                 app:layout_constraintTop_toBottomOf="@id/divisor_estado"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_estado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/estado"
@@ -443,7 +448,8 @@
                 app:layout_constraintTop_toBottomOf="@id/divisor_estado"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/activity_formulario_aluno_edit_text_cidade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/cidade"
