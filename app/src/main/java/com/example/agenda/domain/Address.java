@@ -2,6 +2,9 @@ package com.example.agenda.domain;
 
 public class Address {
 
+    public static final int REQUEST_ZIP_CODE_CODE = 566;
+    public static final String ZIP_CODE_KEY = "zip_code_key";
+
     private String cep;
     private String logradouro;
     private String complemento;

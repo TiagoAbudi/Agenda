@@ -1,11 +1,12 @@
 package com.example.agenda.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.agenda.database.BD;
 import com.example.agenda.model.Aluno;

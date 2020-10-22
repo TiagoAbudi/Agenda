@@ -7,11 +7,11 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ValidaData implements Validador {
 
+    private static final String ERRO = "Data inválida";
     private final TextInputLayout textInputData;
     private final EditText campoData;
     private final ValidacaoPadrao validacaoPadrao;
     private final FormataData formatador = new FormataData();
-    private static final String ERRO = "Data inválida";
 
     public ValidaData(TextInputLayout textInputDataComFormatacao) {
         this.textInputData = textInputDataComFormatacao;

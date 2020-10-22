@@ -26,7 +26,7 @@ import static com.example.agenda.database.BDCore.COL_9;
 import static com.example.agenda.database.BDCore.NOME_TABELA;
 
 public class BD {
-    private SQLiteDatabase bd;
+    private final SQLiteDatabase bd;
 
     public BD(Context context) {
         BDCore auxBd = new BDCore(context);

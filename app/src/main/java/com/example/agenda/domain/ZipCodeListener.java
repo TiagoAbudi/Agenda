@@ -1,5 +1,4 @@
 package com.example.agenda.domain;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;

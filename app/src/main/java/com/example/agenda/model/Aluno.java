@@ -1,6 +1,5 @@
 package com.example.agenda.model;
 
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;

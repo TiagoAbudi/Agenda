@@ -1,8 +1,6 @@
 package com.example.agenda.ui.activity;
 
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
@@ -42,9 +41,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
-
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
@@ -52,6 +51,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
     private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
     private final List<Validador> validadores = new ArrayList<>();
+    private final Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     private Aluno aluno;
     private EditText campoCep;
     private TextInputLayout textInputNome;
@@ -65,13 +65,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private TextInputLayout textInputEstado;
     private TextInputLayout textInputCidade;
     private TextInputLayout textInputEmail;
-    private ImageView fotoDePerfil;
     private String caminhoFoto;
     private Util util;
-    private Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-    {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,36 +76,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         carregaAluno();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
-        campoCep = (EditText) findViewById(R.id.activity_formulario_aluno_edit_text_cep);
-        campoCep.addTextChangedListener(new ZipCodeListener(this));
-        util = new Util(this,
-                R.id.activity_formulario_aluno_edit_text_cep,
-                R.id.activity_formulario_aluno_edit_text_bairro,
-                R.id.activity_formulario_aluno_edit_text_rua,
-                R.id.activity_formulario_aluno_edit_text_numero,
-                R.id.activity_formulario_aluno_edit_text_estado,
-                R.id.activity_formulario_aluno_edit_text_cidade);
-
-    }
-
-    public String getUriZipCode() {
-        return "https://viacep.com.br/ws/" + campoCep.getText() + "/json/";
-    }
-
-    public void lockFields(boolean isToLock) {
-        util.lockFields(isToLock);
-    }
-
-    public void setDataViews(Address address) {
-        setField(R.id.activity_formulario_aluno_edit_text_rua, address.getLogradouro());
-        setField(R.id.activity_formulario_aluno_edit_text_bairro, address.getBairro());
-        setField(R.id.activity_formulario_aluno_edit_text_estado, address.getUf());
-        setField(R.id.activity_formulario_aluno_edit_text_cidade, address.getLocalidade());
-    }
-
-    private void setField(int id, String data) {
-        ((EditText) findViewById(id)).setText(data);
+        enderecoAutomatico();
     }
 
     @Override
@@ -133,13 +99,36 @@ public class FormularioAlunoActivity extends AppCompatActivity {
                     .Builder(this)
                     .setTitle("Cancelando cadastro")
                     .setMessage("Tem certeza que deseja cancelar o cadastro? Todas as alterções não salvas serão descartadas")
-                    .setPositiveButton("Sim", (dialogInterface, i) -> {
-                        finish();
-                    })
-                    .setNegativeButton("Nâo", null)
+                    .setPositiveButton("Sim", (dialogInterface, i) -> finish())
+                    .setNegativeButton("Não", null)
                     .show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CODIGO_CAMERA) {
+                ImageView foto = findViewById(R.id.imagem_de_perfil);
+                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(270);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                        0,
+                        0,
+                        bitmapReduzido.getWidth(),
+                        bitmapReduzido.getHeight(),
+                        matrix,
+                        true);
+                foto.setImageBitmap(rotatedBitmap);
+            }
+            if (requestCode == Address.REQUEST_ZIP_CODE_CODE) {
+                campoCep.setText(data.getStringExtra(Address.ZIP_CODE_KEY));
+            }
+        }
     }
 
     private void inicializacaoDosCampos() {
@@ -185,22 +174,21 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Cadastro concluído!", Toast.LENGTH_SHORT);
             toast.show();
         }
-
         voltaParaListaDeAlunos();
     }
 
     private void preencheCampos() {
-        textInputNome.getEditText().setText(aluno.getNome());
-        textInputSobrenome.getEditText().setText(aluno.getSobrenome());
-        textInputData.getEditText().setText(aluno.getData());
-        textInputTelefoneComDdd.getEditText().setText(aluno.getTelefone());
-        textInputCep.getEditText().setText(aluno.getCep());
-        textInputBairro.getEditText().setText(aluno.getBairro());
-        textInputRua.getEditText().setText(aluno.getRua());
-        textInputNumero.getEditText().setText(aluno.getNumero());
-        textInputEstado.getEditText().setText(aluno.getEstado());
-        textInputCidade.getEditText().setText(aluno.getCidade());
-        textInputEmail.getEditText().setText(aluno.getEmail());
+        Objects.requireNonNull(textInputNome.getEditText()).setText(aluno.getNome());
+        Objects.requireNonNull(textInputSobrenome.getEditText()).setText(aluno.getSobrenome());
+        Objects.requireNonNull(textInputData.getEditText()).setText(aluno.getData());
+        Objects.requireNonNull(textInputTelefoneComDdd.getEditText()).setText(aluno.getTelefone());
+        Objects.requireNonNull(textInputCep.getEditText()).setText(aluno.getCep());
+        Objects.requireNonNull(textInputBairro.getEditText()).setText(aluno.getBairro());
+        Objects.requireNonNull(textInputRua.getEditText()).setText(aluno.getRua());
+        Objects.requireNonNull(textInputNumero.getEditText()).setText(aluno.getNumero());
+        Objects.requireNonNull(textInputEstado.getEditText()).setText(aluno.getEstado());
+        Objects.requireNonNull(textInputCidade.getEditText()).setText(aluno.getCidade());
+        Objects.requireNonNull(textInputEmail.getEditText()).setText(aluno.getEmail());
         preencheCampoFoto();
     }
 
@@ -227,6 +215,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         final EditText campo = textInputCampo.getEditText();
         final ValidacaoPadrao validador = new ValidacaoPadrao(textInputCampo);
         validadores.add(validador);
+        assert campo != null;
         campo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -346,6 +335,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         EditText campoEmail = textInputEmail.getEditText();
         ValidaEmail validadorEmail = new ValidaEmail(textInputEmail);
         validadores.add(validadorEmail);
+        assert campoEmail != null;
         campoEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -357,17 +347,17 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void preencheAluno() {
-        String nome = textInputNome.getEditText().getText().toString();
-        String sobrenome = textInputSobrenome.getEditText().getText().toString();
-        String data = textInputData.getEditText().getText().toString();
-        String telefone = textInputTelefoneComDdd.getEditText().getText().toString();
-        String cep = textInputCep.getEditText().getText().toString();
-        String bairro = textInputBairro.getEditText().getText().toString();
-        String rua = textInputRua.getEditText().getText().toString();
-        String numero = textInputNumero.getEditText().getText().toString();
-        String estado = textInputEstado.getEditText().getText().toString();
-        String cidade = textInputCidade.getEditText().getText().toString();
-        String email = textInputEmail.getEditText().getText().toString();
+        String nome = Objects.requireNonNull(textInputNome.getEditText()).getText().toString();
+        String sobrenome = Objects.requireNonNull(textInputSobrenome.getEditText()).getText().toString();
+        String data = Objects.requireNonNull(textInputData.getEditText()).getText().toString();
+        String telefone = Objects.requireNonNull(textInputTelefoneComDdd.getEditText()).getText().toString();
+        String cep = Objects.requireNonNull(textInputCep.getEditText()).getText().toString();
+        String bairro = Objects.requireNonNull(textInputBairro.getEditText()).getText().toString();
+        String rua = Objects.requireNonNull(textInputRua.getEditText()).getText().toString();
+        String numero = Objects.requireNonNull(textInputNumero.getEditText()).getText().toString();
+        String estado = Objects.requireNonNull(textInputEstado.getEditText()).getText().toString();
+        String cidade = Objects.requireNonNull(textInputCidade.getEditText()).getText().toString();
+        String email = Objects.requireNonNull(textInputEmail.getEditText()).getText().toString();
         String foto = caminhoFoto;
 
         aluno.setNome(nome);
@@ -384,7 +374,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         aluno.setFoto(foto);
     }
 
-
     private void setaViews() {
         textInputNome = findViewById(R.id.activity_formulario_aluno_nome);
         textInputSobrenome = findViewById(R.id.activity_formulario_aluno_sobrenome);
@@ -397,7 +386,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         textInputEstado = findViewById(R.id.activity_formulario_aluno_estado);
         textInputCidade = findViewById(R.id.activity_formulario_aluno_cidade);
         textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
-        fotoDePerfil = findViewById(R.id.imagem_de_perfil);
     }
 
     private void configuraBotaoFoto() {
@@ -426,26 +414,46 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 //        });
 //    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CODIGO_CAMERA) {
-                ImageView foto = findViewById(R.id.imagem_de_perfil);
-                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-                Matrix matrix = new Matrix();
-                matrix.postRotate(270);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
-                        0,
-                        0,
-                        bitmapReduzido.getWidth(),
-                        bitmapReduzido.getHeight(),
-                        matrix,
-                        true);
-                foto.setImageBitmap(rotatedBitmap);
+    private void enderecoAutomatico() {
+        campoCep = findViewById(R.id.activity_formulario_aluno_edit_text_cep);
+        campoCep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                campoCep.addTextChangedListener(new ZipCodeListener(FormularioAlunoActivity.this));
+                util = new Util(FormularioAlunoActivity.this,
+                        R.id.activity_formulario_aluno_edit_text_cep,
+                        R.id.activity_formulario_aluno_edit_text_bairro,
+                        R.id.activity_formulario_aluno_edit_text_rua,
+                        R.id.activity_formulario_aluno_edit_text_numero,
+                        R.id.activity_formulario_aluno_edit_text_estado,
+                        R.id.activity_formulario_aluno_edit_text_cidade);
             }
-        }
+        });
+
+    }
+
+    public String getUriZipCode() {
+        return "https://viacep.com.br/ws/" + campoCep.getText() + "/json/";
+    }
+
+    public void lockFields(boolean isToLock) {
+        util.lockFields(isToLock);
+    }
+
+    public void setDataViews(Address address) {
+        setField(R.id.activity_formulario_aluno_edit_text_rua, address.getLogradouro());
+        setField(R.id.activity_formulario_aluno_edit_text_bairro, address.getBairro());
+        setField(R.id.activity_formulario_aluno_edit_text_estado, address.getUf());
+        setField(R.id.activity_formulario_aluno_edit_text_cidade, address.getLocalidade());
+    }
+
+    private void setField(int id, String data) {
+        ((EditText) findViewById(id)).setText(data);
+    }
+
+    public void searchZipCode(View view) {
+        Intent intent = new Intent(this, ProcuraCepActivity.class);
+        startActivityForResult(intent, Address.REQUEST_ZIP_CODE_CODE);
     }
 
 }
