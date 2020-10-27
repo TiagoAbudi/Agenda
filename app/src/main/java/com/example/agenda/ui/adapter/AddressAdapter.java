@@ -14,64 +14,64 @@ import java.util.List;
 
 public class AddressAdapter extends BaseAdapter {
 
-    private LayoutInflater inflater;
-    private List<Address> addresses;
+   private LayoutInflater inflater;
+   private List<Address> addresses;
 
-    public AddressAdapter(Context context, List<Address> addresses) {
-        inflater = LayoutInflater.from(context);
-        this.addresses = addresses;
-    }
+   public AddressAdapter(Context context, List<Address> addresses) {
+      inflater = LayoutInflater.from(context);
+      this.addresses = addresses;
+   }
 
-    @Override
-    public int getCount() {
-        return addresses.size();
-    }
+   @Override
+   public int getCount() {
+      return addresses.size();
+   }
 
-    @Override
-    public Object getItem(int i) {
-        return addresses.get(i);
-    }
+   @Override
+   public Object getItem(int i) {
+      return addresses.get(i);
+   }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
+   @Override
+   public long getItemId(int i) {
+      return i;
+   }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
+   @Override
+   public View getView(int i, View view, ViewGroup viewGroup) {
+      ViewHolder holder;
 
-        if (view == null) {
-            view = inflater.inflate(R.layout.address_item, null);
-            holder = new ViewHolder();
-            view.setTag(holder);
-            holder.setViews(view);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
+      if (view == null) {
+         view = inflater.inflate(R.layout.address_item, null);
+         holder = new ViewHolder();
+         view.setTag(holder);
+         holder.setViews(view);
+      } else {
+         holder = (ViewHolder) view.getTag();
+      }
 
-        holder.setData(addresses.get(i));
+      holder.setData(addresses.get(i));
 
-        return view;
-    }
+      return view;
+   }
 
 
-    private static class ViewHolder {
-        TextView cep;
-        TextView rua;
-        TextView bairro;
+   private static class ViewHolder {
+      TextView cep;
+      TextView rua;
+      TextView bairro;
 
-        private void setViews(View view) {
-            cep = view.findViewById(R.id.address_item_text_view_cep);
-            rua = view.findViewById(R.id.address_item_text_view_rua);
-            bairro = view.findViewById(R.id.address_item_text_view_bairro);
-        }
+      private void setViews(View view) {
+         cep = view.findViewById(R.id.address_item_text_view_cep);
+         rua = view.findViewById(R.id.address_item_text_view_rua);
+         bairro = view.findViewById(R.id.address_item_text_view_bairro);
+      }
 
-        private void setData(Address address) {
-            cep.setText("CEP: " + address.getCep());
-            rua.setText("Rua: " + address.getLogradouro());
-            bairro.setText("Bairro: " + address.getBairro());
-        }
-    }
+      private void setData(Address address) {
+         cep.setText("CEP: " + address.getCep());
+         rua.setText("Rua: " + address.getLogradouro());
+         bairro.setText("Bairro: " + address.getBairro());
+      }
+   }
 
 }

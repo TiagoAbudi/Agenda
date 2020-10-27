@@ -19,81 +19,81 @@ import java.util.List;
 
 public class ListaAlunosAdapter extends BaseAdapter {
 
-    private final List<Aluno> alunoLista = new ArrayList<>();
-    private final Context context;
-    private Aluno aluno;
-    private ImageView fotoDePerfil;
-    private String caminhoFoto;
+   private final List<Aluno> alunoLista = new ArrayList<>();
+   private final Context context;
+   private Aluno aluno;
+   private ImageView fotoDePerfil;
+   private String caminhoFoto;
 
-    public ListaAlunosAdapter(Context context) {
-        this.context = context;
-    }
+   public ListaAlunosAdapter(Context context) {
+      this.context = context;
+   }
 
-    @Override
-    public int getCount() {
-        return alunoLista.size();
-    }
+   @Override
+   public int getCount() {
+      return alunoLista.size();
+   }
 
-    @Override
-    public Aluno getItem(int posicao) {
-        return alunoLista.get(posicao);
-    }
+   @Override
+   public Aluno getItem(int posicao) {
+      return alunoLista.get(posicao);
+   }
 
-    @Override
-    public long getItemId(int posicao) {
-        return alunoLista.get(posicao).getId();
-    }
+   @Override
+   public long getItemId(int posicao) {
+      return alunoLista.get(posicao).getId();
+   }
 
-    @Override
-    public View getView(int posicao, View view, ViewGroup viewGroup) {
-        View viewCriada = criaView(viewGroup);
-        Aluno alunoDevolvido = alunoLista.get(posicao);
-        vincula(viewCriada, alunoDevolvido);
-        return viewCriada;
-    }
+   @Override
+   public View getView(int posicao, View view, ViewGroup viewGroup) {
+      View viewCriada = criaView(viewGroup);
+      Aluno alunoDevolvido = alunoLista.get(posicao);
+      vincula(viewCriada, alunoDevolvido);
+      return viewCriada;
+   }
 
-    private void vincula(View view, Aluno alunos) {
-        TextView nome = view.findViewById(R.id.item_aluno_nome);
-        nome.setText(alunos.getNomeCompleto());
+   private void vincula(View view, Aluno alunos) {
+      TextView nome = view.findViewById(R.id.item_aluno_nome);
+      nome.setText(alunos.getNomeCompleto());
 
-        TextView telefone = view.findViewById(R.id.item_aluno_telefone);
-        telefone.setText(alunos.getTelefone());
+      TextView telefone = view.findViewById(R.id.item_aluno_telefone);
+      telefone.setText(alunos.getTelefone());
 
-        setaFotoDePerfil(view, alunos);
-    }
+      setaFotoDePerfil(view, alunos);
+   }
 
-    private void setaFotoDePerfil(View view, Aluno alunos) {
-        if (!alunos.getFoto().equals("")) {
-            ImageView foto = view.findViewById(R.id.foto_perfil);
-            Bitmap bitmap = BitmapFactory.decodeFile(alunos.getFoto());
-            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(270);
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
-                    0,
-                    0,
-                    bitmapReduzido.getWidth(),
-                    bitmapReduzido.getHeight(),
-                    matrix,
-                    true);
-            foto.setImageBitmap(rotatedBitmap);
-        }
-    }
+   private void setaFotoDePerfil(View view, Aluno alunos) {
+      if (!alunos.getFoto().equals("")) {
+         ImageView foto = view.findViewById(R.id.foto_perfil);
+         Bitmap bitmap = BitmapFactory.decodeFile(alunos.getFoto());
+         Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+         Matrix matrix = new Matrix();
+         matrix.postRotate(270);
+         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
+                 0,
+                 0,
+                 bitmapReduzido.getWidth(),
+                 bitmapReduzido.getHeight(),
+                 matrix,
+                 true);
+         foto.setImageBitmap(rotatedBitmap);
+      }
+   }
 
-    private View criaView(ViewGroup viewGroup) {
-        return LayoutInflater
-                .from(context)
-                .inflate(R.layout.item_aluno, viewGroup, false);
-    }
+   private View criaView(ViewGroup viewGroup) {
+      return LayoutInflater
+              .from(context)
+              .inflate(R.layout.item_aluno, viewGroup, false);
+   }
 
-    public void atualiza(List<Aluno> alunos) {
-        this.alunoLista.clear();
-        this.alunoLista.addAll(alunos);
-        notifyDataSetChanged();
-    }
+   public void atualiza(List<Aluno> alunos) {
+      this.alunoLista.clear();
+      this.alunoLista.addAll(alunos);
+      notifyDataSetChanged();
+   }
 
-    public void remove(Aluno aluno) {
-        alunoLista.remove(aluno);
-        notifyDataSetChanged();
-    }
+   public void remove(Aluno aluno) {
+      alunoLista.remove(aluno);
+      notifyDataSetChanged();
+   }
 }

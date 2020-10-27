@@ -14,45 +14,47 @@ import java.util.List;
 
 public class MensagemAdapter extends BaseAdapter {
 
-    private final List<Mensagem> mensagens;
-    private final Activity activity;
-    private final int idDoCliente;
+   private final List<Mensagem> mensagens;
+   private final Activity activity;
+   private final int idDoCliente;
 
-    public MensagemAdapter(int idDoCliente, List<Mensagem> mensagens, Activity activity) {
-        this.mensagens = mensagens;
-        this.activity = activity;
-        this.idDoCliente = idDoCliente;
-    }
+   public MensagemAdapter(int idDoCliente, List<Mensagem> mensagens, Activity activity) {
+      this.mensagens = mensagens;
+      this.activity = activity;
+      this.idDoCliente = idDoCliente;
+   }
 
-    @Override
-    public int getCount() {
-        return mensagens.size();
-    }
+   @Override
+   public int getCount() {
+      return mensagens.size();
+   }
 
-    @Override
-    public Mensagem getItem(int i) {
-        return mensagens.get(i);
-    }
+   @Override
+   public Mensagem getItem(int i) {
+      return mensagens.get(i);
+   }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
+   @Override
+   public long getItemId(int i) {
+      return i;
+   }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View linha = activity.getLayoutInflater().inflate(R.layout.mensagem, viewGroup, false);
+   @Override
+   public View getView(int i, View view, ViewGroup viewGroup) {
+      View linha = activity
+              .getLayoutInflater()
+              .inflate(R.layout.mensagem, viewGroup, false);
 
-        TextView texto = linha.findViewById(R.id.text_view_texto);
+      TextView texto = linha.findViewById(R.id.text_view_texto);
 
-        Mensagem mensagem = getItem(i);
+      Mensagem mensagem = getItem(i);
 
-        if (idDoCliente != mensagem.getId()) {
-            linha.setBackgroundColor(Color.DKGRAY);
-        }
+      if (idDoCliente != mensagem.getId()) {
+         linha.setBackgroundColor(Color.DKGRAY);
+      }
 
-        texto.setText(mensagem.getTexto());
+      texto.setText(mensagem.getTexto());
 
-        return linha;
-    }
+      return linha;
+   }
 }

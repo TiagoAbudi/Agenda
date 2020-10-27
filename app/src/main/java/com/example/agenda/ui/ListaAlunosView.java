@@ -14,43 +14,43 @@ import com.example.agenda.ui.adapter.ListaAlunosAdapter;
 
 public class ListaAlunosView {
 
-    private final ListaAlunosAdapter adapter;
-    private final Context context;
+   private final ListaAlunosAdapter adapter;
+   private final Context context;
 
-    public ListaAlunosView(Context context) {
-        this.context = context;
-        this.adapter = new ListaAlunosAdapter(this.context);
-    }
+   public ListaAlunosView(Context context) {
+      this.context = context;
+      this.adapter = new ListaAlunosAdapter(this.context);
+   }
 
-    public void confirmaRemocao(final MenuItem item) {
-        new AlertDialog
-                .Builder(context)
-                .setTitle("Removendo Aluno")
-                .setMessage("Tem certeza que deseja remover o aluno?")
-                .setPositiveButton("Sim", (dialogInterface, i) -> {
-                    AdapterView.AdapterContextMenuInfo menuInfo =
-                            (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                    Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-                    remove(alunoEscolhido);
-                    Toast toast = Toast.makeText(context, "Aluno removido", Toast.LENGTH_SHORT);
-                    toast.show();
-                })
-                .setNegativeButton("Nâo", null)
-                .show();
-    }
+   public void confirmaRemocao(final MenuItem item) {
+      new AlertDialog
+              .Builder(context)
+              .setTitle("Removendo Aluno")
+              .setMessage("Tem certeza que deseja remover o aluno?")
+              .setPositiveButton("Sim", (dialogInterface, i) -> {
+                 AdapterView.AdapterContextMenuInfo menuInfo =
+                         (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                 Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+                 remove(alunoEscolhido);
+                 Toast toast = Toast.makeText(context, "Aluno removido", Toast.LENGTH_SHORT);
+                 toast.show();
+              })
+              .setNegativeButton("Nâo", null)
+              .show();
+   }
 
-    public void atualizaAlunos() {
-        BD bd = new BD(context);
-        adapter.atualiza(bd.buscar());
-    }
+   public void atualizaAlunos() {
+      BD bd = new BD(context);
+      adapter.atualiza(bd.buscar());
+   }
 
-    private void remove(Aluno aluno) {
-        BD bd = new BD(context);
-        bd.deletar(aluno);
-        adapter.remove(aluno);
-    }
+   private void remove(Aluno aluno) {
+      BD bd = new BD(context);
+      bd.deletar(aluno);
+      adapter.remove(aluno);
+   }
 
-    public void configuraAdapter(ListView listaDeAlunos) {
-        listaDeAlunos.setAdapter(adapter);
-    }
+   public void configuraAdapter(ListView listaDeAlunos) {
+      listaDeAlunos.setAdapter(adapter);
+   }
 }

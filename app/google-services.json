@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "105896793478",
+    "firebase_url": "https://agenda-3bfc5.firebaseio.com",
+    "project_id": "agenda-3bfc5",
+    "storage_bucket": "agenda-3bfc5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105896793478:android:943d9dc8935f1541fc4807",
+        "android_client_info": {
+          "package_name": "com.example.agenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105896793478-orkj8q6p70mm8soa1iq75a703hp8etaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7rrhaPnBR0Yh8vP40lsMSU3X0ONHfFxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105896793478-orkj8q6p70mm8soa1iq75a703hp8etaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

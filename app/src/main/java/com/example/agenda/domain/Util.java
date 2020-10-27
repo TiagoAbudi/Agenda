@@ -3,21 +3,21 @@ package com.example.agenda.domain;
 import android.app.Activity;
 
 public class Util {
-    private Activity activity;
-    private int[] ids;
+   private Activity activity;
+   private int[] ids;
 
-    public Util(Activity activity, int... ids) {
-        this.activity = activity;
-        this.ids = ids;
-    }
+   public Util(Activity activity, int... ids) {
+      this.activity = activity;
+      this.ids = ids;
+   }
 
-    public void lockFields(boolean isToLock) {
-        for (int id : ids) {
-            setLockField(id, isToLock);
-        }
-    }
+   public void lockFields(boolean isToLock) {
+      for (int id : ids) {
+         setLockField(id, isToLock);
+      }
+   }
 
-    private void setLockField(int fieldId, boolean isToLock) {
-        activity.findViewById(fieldId).setEnabled(!isToLock);
-    }
+   private void setLockField(int fieldId, boolean isToLock) {
+      activity.findViewById(fieldId).setEnabled(!isToLock);
+   }
 }
