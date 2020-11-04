@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RedefineSenhaActivity extends AppCompatActivity {
 
-   private static final String TITULO_APPBAR = "Recuperação de senha";
    private AutoCompleteTextView email;
    private FirebaseAuth firebaseAuth;
 
@@ -25,7 +24,6 @@ public class RedefineSenhaActivity extends AppCompatActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_redefine_senha);
       firebaseAuth = FirebaseAuth.getInstance();
-      setTitle(TITULO_APPBAR);
    }
 
    @Override

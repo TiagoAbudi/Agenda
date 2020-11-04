@@ -3,13 +3,11 @@ package com.example.agenda.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,24 +20,15 @@ import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
-   private static final String TITULO_APPBAR = "Lista de alunos";
    private ListaAlunosView listaAlunosView;
 
    @Override
    protected void onCreate(@Nullable Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_lista_alunos);
-      setTitle(TITULO_APPBAR);
       listaAlunosView = new ListaAlunosView(this);
       configuraFabNovoAluno();
       configuraLista();
-   }
-
-   @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-      getMenuInflater()
-              .inflate(R.menu.volta_para_o_menu, menu);
-      return super.onCreateOptionsMenu(menu);
    }
 
    @Override
@@ -64,14 +53,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
    protected void onResume() {
       super.onResume();
       listaAlunosView.atualizaAlunos();
-   }
-
-   @Override
-   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-      if (item.getItemId() == R.id.volta_menu) {
-         voltaParaOMenu();
-      }
-      return super.onOptionsItemSelected(item);
    }
 
    private void configuraFabNovoAluno() {
@@ -111,10 +92,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
               ListaAlunosActivity.this, FormularioAlunoActivity.class);
       vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, aluno);
       startActivity(vaiParaFormularioActivity);
-   }
-
-   public void voltaParaOMenu() {
-      startActivity(new Intent(this, MenuActivity.class));
    }
 
 }

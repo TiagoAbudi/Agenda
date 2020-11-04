@@ -22,13 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuActivity extends AppCompatActivity {
 
-   private static final String TITULO_APPBAR = "Menu";
 
    @Override
    public void onCreate(@Nullable Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.menu);
-      setTitle(TITULO_APPBAR);
       validaPermissoes();
       botaoVaiParaALista();
       botaoVaiParaChat();
@@ -85,7 +83,7 @@ public class MenuActivity extends AppCompatActivity {
    }
 
    private void abreChat() {
-      startActivity(new Intent(this, ChatActivity.class));
+      startActivity(new Intent(this, MensagensActivity.class));
    }
 
 

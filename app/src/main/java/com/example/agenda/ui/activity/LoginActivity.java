@@ -28,7 +28,7 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-   private static final String TITULO_APPBAR = "Login";
+   private final String APP_BAR = "Login";
    private final List<Validador> validadores = new ArrayList<>();
    private TextInputLayout textInputEmail;
    private EditText campoEmail;
@@ -43,10 +43,10 @@ public class LoginActivity extends AppCompatActivity {
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_login);
-      setTitle(TITULO_APPBAR);
       mAuth = FirebaseAuth.getInstance();
 //      geraToken();
       setaViews();
+      setTitle(APP_BAR);
       configuraBotaoLogin();
    }
 
@@ -76,6 +76,12 @@ public class LoginActivity extends AppCompatActivity {
 
                  }
               });
+   }
+
+   private void abreMenu() {
+      Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+      startActivity(intent);
    }
 
    private boolean isUsuarioConectado() {
@@ -147,10 +153,6 @@ public class LoginActivity extends AppCompatActivity {
 
    public void vaiParaRedefinicaoDeSenha(View view) {
       startActivity(new Intent(this, RedefineSenhaActivity.class));
-   }
-
-   private void abreMenu() {
-      startActivity(new Intent(LoginActivity.this, MenuActivity.class));
    }
 
    public void vaiParaCadastro(View view) {

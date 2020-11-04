@@ -6,7 +6,7 @@
   <string name="salvar_aluno">Salvar o aluno</string>
   <string name="remover">Remover</string>
   <string name="sobrenome">Sobrenome</string>
-  <string name="listaDeAlunos">Lista de Alunos</string>
+  <string name="lista_de_alunos">Lista de Alunos</string>
   <string name="novoAluno">Novo Aluno</string>
   <string name="volta_para_o_menu">Volta para o menu</string>
   <string name="cancelar_o_cadastro">Cancelar o Cadastro</string>
@@ -35,7 +35,7 @@
   <string name="nao_sei_meu_cep"> ? </string>
   <string name="buscar">BUSCAR</string>
   <string name="resultado">Resultado (endereços)</string>
-  <string name="digite_uma_mensagem">Digite uma mensagem</string>
+  <string name="digite_a_mensagem">Digite a mensagem</string>
   <string name="desconectar">Desconectar</string>
   <string name="tittle_prefs_frequencia_sincronizacao">Frequência de sincronização</string>
   <string name="site">
@@ -44,6 +44,16 @@
   <string name="msg_token_fmt">token</string>
   <string name="redefinir">Redefinir</string>
   <string name="chat">Chat</string>
+  <string name="volta">Volta</string>
+  <string name="contatos">Contatos</string>
+  <string name="mensagens">Mensagens</string>
+  <string name="login">Login</string>
+  <string name="recuperacao_de_senha">Recuperação de senha</string>
+  <string name="cadastro">Cadastro</string>
+  <string name="menu">Menu</string>
+  <string name="formulario">Formulário</string>
+  <string name="procura_cep">Procura CEP</string>
+  <string name="enviar">Enviar</string>
   <string-array name="states">
     <item>"*Estado"</item>
     <item>"Acre (AC)"</item>

@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
 import com.example.agenda.formatter.FormataTelefoneComDdd;
-import com.example.agenda.model.Usuario;
+import com.example.agenda.model.User;
 import com.example.agenda.valida.ValidaEmail;
 import com.example.agenda.valida.ValidaTelefoneComDdd;
 import com.example.agenda.valida.ValidacaoPadrao;
@@ -34,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,7 +46,6 @@ import java.util.UUID;
 
 public class CadastroActivity extends AppCompatActivity {
 
-   private static final String TITULO_APPBAR = "Cadastro";
    private final List<Validador> validadores = new ArrayList<>();
    private TextInputLayout textInputNome;
    private EditText campoNome;
@@ -70,7 +68,6 @@ public class CadastroActivity extends AppCompatActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_cadastro);
       iniciaCampos();
-      setTitle(TITULO_APPBAR);
       mAuth = FirebaseAuth.getInstance();
    }
 
@@ -96,21 +93,33 @@ public class CadastroActivity extends AppCompatActivity {
       return super.onOptionsItemSelected(item);
    }
 
-   private void criarUsuario(String email, String password) {
-      mAuth.createUserWithEmailAndPassword(email, password)
-              .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+   private void criarUsuario() {
+      String nome = campoNome.getText().toString();
+      String sobrenome = campoSobrenome.getText().toString();
+      String telefone = campoTelefone.getText().toString();
+      String email = campoEmail.getText().toString();
+      String senha = campoSenha.getText().toString();
+
+      if (nome == null || nome.isEmpty() || sobrenome == null || sobrenome.isEmpty() || telefone == null || telefone.isEmpty() || email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
+         Toast.makeText(this, "Nome, senha e email devem ser preenchidos", Toast.LENGTH_SHORT).show();
+         return;
+      }
+
+      FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
+              .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                  @Override
                  public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                       Log.d("Sucess create", "createUserWithEmail:success");
+                       Log.i("Teste", task.getResult().getUser().getUid());
                        saveUserInFirebase();
-                       Toast.makeText(getApplicationContext(), "Usuário criado", Toast.LENGTH_SHORT).show();
-                       vaiParaLogin();
-                    } else {
-                       Log.w("Fail create", "createUserWithEmail:failure", task.getException());
-                       Toast.makeText(getApplicationContext(), "Authentication failed.",
-                               Toast.LENGTH_SHORT).show();
                     }
+
+                 }
+              })
+              .addOnFailureListener(new OnFailureListener() {
+                 @Override
+                 public void onFailure(@NonNull Exception e) {
+                    Log.i("Teste", e.getMessage());
                  }
               });
    }
@@ -132,14 +141,15 @@ public class CadastroActivity extends AppCompatActivity {
                           String sobrenome = campoSobrenome.getText().toString();
                           String telefone = campoTelefone.getText().toString();
                           String foto = uri.toString();
-                          Usuario usuario = new Usuario(uid, nome, sobrenome, telefone, foto);
+                          User user = new User(uid, nome, sobrenome, telefone, foto);
 
                           FirebaseFirestore.getInstance().collection("usuarios")
-                                  .add(usuario)
-                                  .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                  .document(uid)
+                                  .set(user)
+                                  .addOnSuccessListener(new OnSuccessListener<Void>() {
                                      @Override
-                                     public void onSuccess(DocumentReference documentReference) {
-                                        Log.e("Teste", documentReference.getId());
+                                     public void onSuccess(Void aVoid) {
+                                        vaiParaLogin();
                                      }
                                   })
                                   .addOnFailureListener(new OnFailureListener() {
@@ -171,7 +181,7 @@ public class CadastroActivity extends AppCompatActivity {
          @Override
          public void onClick(View v) {
             if (validaTodosCampos()) {
-               criarUsuario(campoEmail.getText().toString(), campoSenha.getText().toString());
+               criarUsuario();
             }
          }
       });
@@ -208,7 +218,6 @@ public class CadastroActivity extends AppCompatActivity {
             fotoDePerfil.setImageBitmap(rotatedBitmap);
             botaoFoto.setAlpha(0);
          } catch (IOException e) {
-
          }
       }
 
@@ -235,7 +244,9 @@ public class CadastroActivity extends AppCompatActivity {
    }
 
    private void vaiParaLogin() {
-      startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+      Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+      startActivity(intent);
    }
 
    private void setaViews() {

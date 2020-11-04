@@ -2,8 +2,6 @@ package com.example.agenda.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.agenda.R;
@@ -27,7 +24,6 @@ import static com.example.agenda.domain.Address.ZIP_CODE_KEY;
 
 public class ProcuraCepActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-   private static final String TITULO_APPBAR = "Procura CEP";
    private Spinner spinnerStates;
    private ListView listViewAddress;
    private List<Address> addresses;
@@ -37,7 +33,6 @@ public class ProcuraCepActivity extends AppCompatActivity implements AdapterView
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_procura_cep);
-      setTitle(TITULO_APPBAR);
 
       addresses = new ArrayList<>();
       listViewAddress = (ListView) findViewById(R.id.activity_procura_cep_list_view_address);
@@ -52,21 +47,6 @@ public class ProcuraCepActivity extends AppCompatActivity implements AdapterView
               R.id.activity_procura_cep_edit_text_rua,
               R.id.activity_procura_cep_edit_text_cidade,
               R.id.activity_procura_cep_spinner);
-   }
-
-   @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-      getMenuInflater()
-              .inflate(R.menu.volta_para_o_menu, menu);
-      return super.onCreateOptionsMenu(menu);
-   }
-
-   @Override
-   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-      if (item.getItemId() == R.id.volta_menu) {
-         finish();
-      }
-      return super.onOptionsItemSelected(item);
    }
 
    @Override
