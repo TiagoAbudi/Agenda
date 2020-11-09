@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.agenda.Notification;
 import com.example.agenda.R;
+import com.example.agenda.model.Contact;
+import com.example.agenda.model.Message;
+import com.example.agenda.model.Notification;
 import com.example.agenda.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

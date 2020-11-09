@@ -5,163 +5,163 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-      android:id="@+id/card_cadastro"
+  <androidx.cardview.widget.CardView
+    android:id="@+id/card_cadastro"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="10dp"
-      app:cardCornerRadius="20dp"
-      app:cardElevation="20dp">
+      android:layout_margin="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+      <Button
+        android:id="@+id/botao_foto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/botao_redondo"
+        android:contentDescription="@string/foto_de_perfil"
+        android:text="@string/foto_de_perfil"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+      <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/activity_cadastro_foto_de_perfil"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@id/botao_foto"
+        app:layout_constraintEnd_toEndOf="@id/botao_foto"
+        app:layout_constraintStart_toStartOf="@id/botao_foto"
+        app:layout_constraintTop_toTopOf="@id/botao_foto" />
+
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_cadastro_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/botao_foto"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textfield.TextInputEditText
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp">
+          android:hint="@string/nome"
+          android:inputType="textCapWords"
+          android:maxLines="1"
+          android:textStyle="bold" />
 
-            <Button
-              android:id="@+id/botao_foto"
-              android:layout_width="150dp"
-              android:layout_height="150dp"
-              android:background="@drawable/botao_redondo"
-              android:contentDescription="@string/foto_de_perfil"
-              android:text="@string/foto_de_perfil"
-              android:textColor="@android:color/white"
-              android:textStyle="bold"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="parent"
-              app:layout_constraintVertical_bias="0.0" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-              android:id="@+id/activity_cadastro_foto_de_perfil"
-              android:layout_width="150dp"
-              android:layout_height="150dp"
-              app:layout_constraintBottom_toBottomOf="@id/botao_foto"
-              app:layout_constraintEnd_toEndOf="@id/botao_foto"
-              app:layout_constraintStart_toStartOf="@id/botao_foto"
-              app:layout_constraintTop_toTopOf="@id/botao_foto" />
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_cadastro_sobrenome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_cadastro_nome"
+        app:layout_constraintVertical_bias="0.0">
 
-            <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/activity_cadastro_nome"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/botao_foto"
-              app:layout_constraintVertical_bias="0.0">
+        <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/sobrenome"
+          android:inputType="textCapWords"
+          android:maxLines="1"
+          android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/nome"
-                  android:inputType="textCapWords"
-                  android:maxLines="1"
-                  android:textStyle="bold" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_cadastro_telefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_cadastro_sobrenome"
+        app:layout_constraintVertical_bias="0.0">
 
-            <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/activity_cadastro_sobrenome"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/activity_cadastro_nome"
-              app:layout_constraintVertical_bias="0.0">
+        <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/telefone"
+          android:inputType="phone"
+          android:maxLength="15"
+          android:maxLines="1"
+          android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/sobrenome"
-                  android:inputType="textCapWords"
-                  android:maxLines="1"
-                  android:textStyle="bold" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_cadastro_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_cadastro_telefone"
+        app:layout_constraintVertical_bias="0.0">
 
-            <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/activity_cadastro_telefone"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/activity_cadastro_sobrenome"
-              app:layout_constraintVertical_bias="0.0">
+        <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/email_login"
+          android:inputType="textEmailAddress"
+          android:maxLines="1"
+          android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/telefone"
-                  android:inputType="phone"
-                  android:maxLength="15"
-                  android:maxLines="1"
-                  android:textStyle="bold" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_cadastro_senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@id/botao_cadastro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_cadastro_email"
+        app:layout_constraintVertical_bias="0.0">
 
-            <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/activity_cadastro_email"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/activity_cadastro_telefone"
-              app:layout_constraintVertical_bias="0.0">
+        <com.google.android.material.textfield.TextInputEditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/senha_login"
+          android:inputType="textPassword"
+          android:maxLines="1"
+          android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/email_login"
-                  android:inputType="textEmailAddress"
-                  android:maxLines="1"
-                  android:textStyle="bold" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+      <Button
+        android:id="@+id/botao_cadastro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_cadastro_senha"
+        app:layout_constraintVertical_bias="0.110000014" />
 
-            <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/activity_cadastro_senha"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              app:layout_constraintBottom_toTopOf="@id/botao_cadastro"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/activity_cadastro_email"
-              app:layout_constraintVertical_bias="0.0">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/senha_login"
-                  android:inputType="textPassword"
-                  android:maxLines="1"
-                  android:textStyle="bold" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-              android:id="@+id/botao_cadastro"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              android:text="@string/cadastrar"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/activity_cadastro_senha"
-              app:layout_constraintVertical_bias="0.110000014" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+  </androidx.cardview.widget.CardView>
 
 </ScrollView>

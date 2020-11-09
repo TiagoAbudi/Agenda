@@ -54,6 +54,9 @@
   <string name="formulario">Formulário</string>
   <string name="procura_cep">Procura CEP</string>
   <string name="enviar">Enviar</string>
+  <string name="botao_adc_aluno">Botao adicionar aluno</string>
+  <string name="nota">Nota</string>
+  <string name="editar">Editar</string>
   <string-array name="states">
     <item>"*Estado"</item>
     <item>"Acre (AC)"</item>

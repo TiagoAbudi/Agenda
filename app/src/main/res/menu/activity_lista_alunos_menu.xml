@@ -5,4 +5,8 @@
     android:id="@+id/activity_lista_alunos_menu_remover"
     android:title="@string/remover" />
 
+  <item
+    android:id="@+id/activity_lista_alunos_menu_editar"
+    android:title="@string/editar" />
+
 </menu>

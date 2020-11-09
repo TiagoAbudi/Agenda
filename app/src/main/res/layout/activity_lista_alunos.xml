@@ -14,6 +14,7 @@
     android:layout_alignParentBottom="true"
     android:layout_margin="16dp"
     android:clickable="true"
+    android:contentDescription="@string/botao_adc_aluno"
     android:focusable="true"
     android:src="@drawable/ic_action_novo_aluno"
     app:backgroundTint="@color/design_default_color_on_secondary"

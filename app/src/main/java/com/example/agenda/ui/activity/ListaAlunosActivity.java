@@ -45,7 +45,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
       if (itemId == R.id.activity_lista_alunos_menu_remover) {
          listaAlunosView.confirmaRemocao(item);
       }
-
+      if (itemId == R.id.activity_lista_alunos_menu_editar) {
+         listaAlunosView.abreEdita(item);
+      }
       return super.onContextItemSelected(item);
    }
 
@@ -53,6 +55,22 @@ public class ListaAlunosActivity extends AppCompatActivity {
    protected void onResume() {
       super.onResume();
       listaAlunosView.atualizaAlunos();
+   }
+
+   private void configuraListenerDeCliquePorItem(ListView listaDeAlunos) {
+      listaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+         @Override
+         public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
+            Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
+            abreNotas(alunoEscolhido);
+         }
+      });
+   }
+
+   private void abreNotas(Aluno aluno) {
+      Intent vaiParaNotasActivity = new Intent(ListaAlunosActivity.this,
+              NotasActivity.class);
+      vaiParaNotasActivity.putExtra(CHAVE_ALUNO, aluno);
    }
 
    private void configuraFabNovoAluno() {
@@ -73,25 +91,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
       registerForContextMenu(listaDeAlunos);
    }
 
-   private void configuraListenerDeCliquePorItem(ListView listaDeAlunos) {
-      listaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-         @Override
-         public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
-            Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
-            abreFormularioModoEditaAluno(alunoEscolhido);
-         }
-      });
-   }
 
    private void abreFormularioModoInsereAluno() {
       startActivity(new Intent(this, FormularioAlunoActivity.class));
-   }
-
-   private void abreFormularioModoEditaAluno(Aluno aluno) {
-      Intent vaiParaFormularioActivity = new Intent(
-              ListaAlunosActivity.this, FormularioAlunoActivity.class);
-      vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, aluno);
-      startActivity(vaiParaFormularioActivity);
    }
 
 }
