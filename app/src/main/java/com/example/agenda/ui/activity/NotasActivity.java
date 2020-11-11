@@ -1,5 +1,6 @@
 package com.example.agenda.ui.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,15 @@ public class NotasActivity extends AppCompatActivity {
    }
 
    private boolean estaNoModoPaisagem() {
-      return getResources().getBoolean(R.bool.modoPaisagem);
+      boolean modoPaisagem;
+      Configuration configuration = getResources().getConfiguration();
+      if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+         modoPaisagem = true;
+         return true;
+      } else {
+         modoPaisagem = false;
+         return false;
+      }
    }
 
    public void selecionaNota(Nota nota) {
