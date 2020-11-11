@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.agenda.R;
 import com.example.agenda.model.Aluno;
 import com.example.agenda.ui.ListaAlunosView;
+import com.example.agenda.ui.adapter.ListaAlunosAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
@@ -46,7 +47,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
          listaAlunosView.confirmaRemocao(item);
       }
       if (itemId == R.id.activity_lista_alunos_menu_editar) {
-         listaAlunosView.abreEdita(item);
+         configuraItem(item);
       }
       return super.onContextItemSelected(item);
    }
@@ -55,6 +56,21 @@ public class ListaAlunosActivity extends AppCompatActivity {
    protected void onResume() {
       super.onResume();
       listaAlunosView.atualizaAlunos();
+   }
+
+   private void configuraItem(final MenuItem item) {
+      ListaAlunosAdapter adapter = new ListaAlunosAdapter(this);
+      AdapterView.AdapterContextMenuInfo menuInfo =
+              (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+      Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+      abreFormularioModoEditaAluno(alunoEscolhido);
+   }
+
+   private void abreFormularioModoEditaAluno(Aluno alunoEscolhido) {
+      Intent vaiParaFormularioActivity = new Intent(
+              ListaAlunosActivity.this, FormularioAlunoActivity.class);
+      vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, alunoEscolhido);
+      startActivity(vaiParaFormularioActivity);
    }
 
    private void configuraListenerDeCliquePorItem(ListView listaDeAlunos) {
@@ -71,6 +87,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
       Intent vaiParaNotasActivity = new Intent(ListaAlunosActivity.this,
               NotasActivity.class);
       vaiParaNotasActivity.putExtra(CHAVE_ALUNO, aluno);
+      startActivity(vaiParaNotasActivity);
    }
 
    private void configuraFabNovoAluno() {

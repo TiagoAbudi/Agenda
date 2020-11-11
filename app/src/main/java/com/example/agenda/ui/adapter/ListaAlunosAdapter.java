@@ -21,9 +21,6 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
    private final List<Aluno> alunoLista = new ArrayList<>();
    private final Context context;
-   private Aluno aluno;
-   private ImageView fotoDePerfil;
-   private String caminhoFoto;
 
    public ListaAlunosAdapter(Context context) {
       this.context = context;

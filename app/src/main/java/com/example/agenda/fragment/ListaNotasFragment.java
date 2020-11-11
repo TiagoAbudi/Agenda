@@ -31,27 +31,27 @@ public class ListaNotasFragment extends Fragment {
               "Prova 3° trimestre = 2,0",
               "Trabalho 1° semsetre = 2,0",
               "Trabalho 2° semestre = 2,0");
-      Nota notaPortugues = new Nota("Portugues", "10,0", provasPortugues);
+      Nota notaPortugues = new Nota("Português", "10,0", provasPortugues);
 
       List<String> provasMatematica = Arrays.asList("Prova 1° trimestre = 2,0",
               "Prova 2° trimestre = 2,0",
               "Prova 3° trimestre = 2,0",
               "Trabalho 1° semsetre = 2,0",
               "Trabalho 2° semestre = 2,0");
-      Nota notaMatematica = new Nota("Matematica", "27/05/2016", provasMatematica);
+      Nota notaMatematica = new Nota("Matemática", "10,0", provasMatematica);
 
       List<Nota> notas = Arrays.asList(notaPortugues, notaMatematica);
 
       ArrayAdapter<Nota> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, notas);
 
-      ListView lista = view.findViewById(R.id.notas_lista);
+      ListView lista = (ListView) view.findViewById(R.id.notas_lista);
       lista.setAdapter(adapter);
 
       lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
          @Override
          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Nota nota = (Nota) parent.getItemAtPosition(position);
-            Toast.makeText(getContext(), "Clicou nas notas de " + nota, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Clicou na nota de " + nota, Toast.LENGTH_SHORT).show();
 
             NotasActivity notasActivity = (NotasActivity) getActivity();
             notasActivity.selecionaNota(nota);

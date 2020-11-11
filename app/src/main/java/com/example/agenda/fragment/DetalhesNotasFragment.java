@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,15 +16,19 @@ import com.example.agenda.model.Nota;
 public class DetalhesNotasFragment extends Fragment {
 
    private TextView campoMateria;
-   private TextView campoNota;
+   private TextView campoData;
+   private ListView listaTopicos;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                             Bundle savedInstanceState) {
-      View view = inflater.inflate(R.layout.fragment_detalhes_notas, container, false);
+      View view = inflater.inflate(R.layout.fragment_detalhes_notas,
+              container,
+              false);
 
-      campoMateria = view.findViewById(R.id.detalhes_nota_materia);
-      campoNota = view.findViewById(R.id.detalhes_nota_resultado);
+      campoMateria = (TextView) view.findViewById(R.id.detalhes_nota_materia);
+      campoData = (TextView) view.findViewById(R.id.detalhes_nota_resultado);
+      listaTopicos = (ListView) view.findViewById(R.id.detalhes_notas);
 
       Bundle parametros = getArguments();
       if (parametros != null) {
@@ -35,6 +41,12 @@ public class DetalhesNotasFragment extends Fragment {
 
    public void populaCamposCom(Nota nota) {
       campoMateria.setText(nota.getMateria());
-      campoNota.setText(nota.getNota());
+      campoData.setText(nota.getNota());
+
+      ArrayAdapter<String> adapterTopicos =
+              new ArrayAdapter<String>(getContext(),
+                      android.R.layout.simple_list_item_1,
+                      nota.getProvas());
+      listaTopicos.setAdapter(adapterTopicos);
    }
 }

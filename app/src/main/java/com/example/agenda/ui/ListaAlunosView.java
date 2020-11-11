@@ -1,7 +1,6 @@
 package com.example.agenda.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,10 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.agenda.database.BD;
 import com.example.agenda.model.Aluno;
-import com.example.agenda.ui.activity.FormularioAlunoActivity;
 import com.example.agenda.ui.adapter.ListaAlunosAdapter;
-
-import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 
 public class ListaAlunosView {
 
@@ -41,19 +37,6 @@ public class ListaAlunosView {
               })
               .setNegativeButton("Não", null)
               .show();
-   }
-
-   public void abreEdita(final MenuItem item) {
-      AdapterView.AdapterContextMenuInfo menuInfo =
-              (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-      Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-      abreEditaAluno(alunoEscolhido);
-   }
-
-   private void abreEditaAluno(Aluno aluno) {
-      Intent vaiParaFormularioActivity = new Intent(
-              context, FormularioAlunoActivity.class);
-      vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, aluno);
    }
 
    public void atualizaAlunos() {

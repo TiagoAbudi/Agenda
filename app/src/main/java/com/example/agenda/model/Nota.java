@@ -15,20 +15,20 @@ public class Nota implements Serializable {
       this.provas = provas;
    }
 
-   public String getNota() {
-      return nota;
-   }
-
-   public void setNota(String nota) {
-      this.nota = nota;
-   }
-
    public String getMateria() {
       return materia;
    }
 
    public void setMateria(String materia) {
       this.materia = materia;
+   }
+
+   public String getNota() {
+      return nota;
+   }
+
+   public void setNota(String nota) {
+      this.nota = nota;
    }
 
    public List<String> getProvas() {
@@ -38,4 +38,10 @@ public class Nota implements Serializable {
    public void setProvas(List<String> provas) {
       this.provas = provas;
    }
+
+   @Override
+   public String toString() {
+      return this.materia;
+   }
+
 }

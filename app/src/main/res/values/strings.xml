@@ -57,6 +57,8 @@
   <string name="botao_adc_aluno">Botao adicionar aluno</string>
   <string name="nota">Nota</string>
   <string name="editar">Editar</string>
+  <string name="notas">Notas</string>
+  <string name="materias">Matérias</string>
   <string-array name="states">
     <item>"*Estado"</item>
     <item>"Acre (AC)"</item>
