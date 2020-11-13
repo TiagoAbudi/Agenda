@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -44,15 +43,13 @@ public class ListaNotasFragment extends Fragment {
 
       ArrayAdapter<Nota> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, notas);
 
-      ListView lista = (ListView) view.findViewById(R.id.notas_lista);
+      ListView lista = view.findViewById(R.id.notas_lista);
       lista.setAdapter(adapter);
 
       lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
          @Override
          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Nota nota = (Nota) parent.getItemAtPosition(position);
-            Toast.makeText(getContext(), "Clicou na nota de " + nota, Toast.LENGTH_SHORT).show();
-
             NotasActivity notasActivity = (NotasActivity) getActivity();
             notasActivity.selecionaNota(nota);
          }

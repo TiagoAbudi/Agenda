@@ -48,10 +48,12 @@ import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 public class FormularioAlunoActivity extends AppCompatActivity {
 
    public static final int CODIGO_CAMERA = 567;
+   public static final int CODIGO_GALERIA = 568;
    private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
    private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
    private final List<Validador> validadores = new ArrayList<>();
    private final Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+   private final Intent abreGaleria = new Intent(Intent.ACTION_PICK);
    private Aluno aluno;
    private EditText campoCep;
    private TextInputLayout textInputNome;
@@ -65,8 +67,13 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    private TextInputLayout textInputEstado;
    private TextInputLayout textInputCidade;
    private TextInputLayout textInputEmail;
+   private Button botaoTiraFoto;
+   private Button botaoEscolheFoto;
+   private ImageView foto;
+   private Uri uri;
    private String caminhoFoto;
    private Util util;
+   private File arquivoFoto;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +118,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       super.onActivityResult(requestCode, resultCode, data);
       if (resultCode == Activity.RESULT_OK) {
          if (requestCode == CODIGO_CAMERA) {
-            ImageView foto = findViewById(R.id.imagem_de_perfil);
             Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
             Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
             Matrix matrix = new Matrix();
@@ -127,6 +133,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
          }
          if (requestCode == Address.REQUEST_ZIP_CODE_CODE) {
             campoCep.setText(data.getStringExtra(Address.ZIP_CODE_KEY));
+         }
+         uri = data.getData();
+         if (requestCode == CODIGO_GALERIA) {
+            Bitmap bitmap;
+            bitmap = BitmapFactory.decodeFile(caminhoFoto);
+            foto.setImageBitmap(bitmap);
          }
       }
    }
@@ -145,7 +157,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       iniciaCampoCidade();
       iniciaCampoEmail();
       configuraBotaoFoto();
-//        configuraBotaoEscolheFoto();
+      configuraBotaoEscolheFoto();
    }
 
    private void setField(int id, String data) {
@@ -198,7 +210,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
    private void preencheCampoFoto() {
       if (!aluno.getFoto().equals("")) {
-         ImageView foto = findViewById(R.id.imagem_de_perfil);
          Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
          caminhoFoto = aluno.getFoto();
          Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
@@ -253,6 +264,10 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       textInputEstado = findViewById(R.id.activity_formulario_aluno_estado);
       textInputCidade = findViewById(R.id.activity_formulario_aluno_cidade);
       textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
+      botaoTiraFoto = findViewById(R.id.botao_foto);
+      botaoEscolheFoto = findViewById(R.id.botao_escolher_foto);
+      campoCep = findViewById(R.id.activity_formulario_aluno_edit_text_cep);
+      foto = findViewById(R.id.imagem_de_perfil);
    }
 
    private void iniciaCampoNome() {
@@ -305,7 +320,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    }
 
    private void iniciaCampoCep() {
-      TextInputLayout textInputCep = findViewById(R.id.activity_formulario_aluno_cep);
       EditText campoCep = textInputCep.getEditText();
       ValidaCep validadorCep = new ValidaCep(textInputCep);
       validadores.add(validadorCep);
@@ -372,7 +386,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       String estado = Objects.requireNonNull(textInputEstado.getEditText()).getText().toString();
       String cidade = Objects.requireNonNull(textInputCidade.getEditText()).getText().toString();
       String email = Objects.requireNonNull(textInputEmail.getEditText()).getText().toString();
-      String foto = caminhoFoto;
+      String caminhoFotoString = caminhoFoto;
 
       aluno.setNome(nome);
       aluno.setSobrenome(sobrenome);
@@ -385,24 +399,38 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       aluno.setEstado(estado);
       aluno.setCidade(cidade);
       aluno.setEmail(email);
-      aluno.setFoto(foto);
+      aluno.setFoto(caminhoFotoString);
+   }
+
+   private void configuraBotaoEscolheFoto() {
+      botaoEscolheFoto.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            setaCaminhoFoto();
+            abreGaleria.setType("image/*");
+            abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+            startActivityForResult(abreGaleria, CODIGO_GALERIA);
+         }
+      });
    }
 
    private void configuraBotaoFoto() {
-      Button botaoFoto = findViewById(R.id.botao_foto);
-      botaoFoto.setOnClickListener(new View.OnClickListener() {
+      botaoTiraFoto.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-            caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-            File arquivoFoto = new File(caminhoFoto);
+            setaCaminhoFoto();
             abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
             startActivityForResult(abreCamera, CODIGO_CAMERA);
          }
       });
    }
 
+   private void setaCaminhoFoto() {
+      caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+      arquivoFoto = new File(caminhoFoto);
+   }
+
    private void enderecoAutomatico() {
-      campoCep = findViewById(R.id.activity_formulario_aluno_edit_text_cep);
       campoCep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
          @Override
          public void onFocusChange(View v, boolean hasFocus) {
@@ -442,18 +470,5 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    private void voltaParaListaDeAlunos() {
       startActivity(new Intent(this, ListaAlunosActivity.class));
    }
-
-//   private void configuraBotaoEscolheFoto() {
-//        Button botaoEscolheFoto = findViewById(R.id.botao_escolher_foto);
-//        botaoEscolheFoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-//                File arquivoFoto = new File(caminhoFoto);
-//                abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-//                startActivityForResult(abreCamera, CODIGO_CAMERA);
-//            }
-//        });
-//    }
 
 }

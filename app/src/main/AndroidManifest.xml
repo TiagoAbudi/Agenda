@@ -22,19 +22,11 @@
 
     <activity
       android:name=".ui.activity.NotasLandscapeActivity"
-      android:label="@string/materias">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.activity.ListaAlunosActivity" />
-    </activity>
+      android:label="@string/notas" />
 
     <activity
       android:name=".ui.activity.NotasActivity"
-      android:label="@string/materias">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".ui.activity.ListaAlunosActivity" />
-    </activity>
+      android:label="@string/materias" />
 
     <activity
       android:name=".ui.activity.DetalhesNotasActivity"

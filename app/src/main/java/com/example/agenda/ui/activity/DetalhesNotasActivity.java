@@ -14,17 +14,20 @@ import com.example.agenda.model.Nota;
 
 public class DetalhesNotasActivity extends AppCompatActivity {
 
+   private static final String APP_BAR = "Notas";
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      setTitle(APP_BAR);
       setContentView(R.layout.activity_detalhes_notas);
 
       Intent intent = getIntent();
       Nota nota = (Nota) intent.getSerializableExtra("nota");
 
-      TextView materia = (TextView) findViewById(R.id.detalhes_nota_materia);
-      TextView notas = (TextView) findViewById(R.id.detalhes_nota_resultado);
-      ListView listaNotas = (ListView) findViewById(R.id.detalhes_notas);
+      TextView materia = findViewById(R.id.detalhes_nota_materia);
+      TextView notas = findViewById(R.id.detalhes_nota_resultado);
+      ListView listaNotas = findViewById(R.id.detalhes_notas);
 
       materia.setText(nota.getMateria());
       notas.setText(nota.getNota());

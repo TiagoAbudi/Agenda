@@ -31,15 +31,8 @@ public class NotasActivity extends AppCompatActivity {
    }
 
    private boolean estaNoModoPaisagem() {
-      boolean modoPaisagem;
       Configuration configuration = getResources().getConfiguration();
-      if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-         modoPaisagem = true;
-         return true;
-      } else {
-         modoPaisagem = false;
-         return false;
-      }
+      return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;
    }
 
    public void selecionaNota(Nota nota) {

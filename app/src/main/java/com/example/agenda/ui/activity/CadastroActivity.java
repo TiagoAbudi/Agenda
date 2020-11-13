@@ -2,7 +2,6 @@ package com.example.agenda.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -100,7 +99,7 @@ public class CadastroActivity extends AppCompatActivity {
       String email = campoEmail.getText().toString();
       String senha = campoSenha.getText().toString();
 
-      if (nome == null || nome.isEmpty() || sobrenome == null || sobrenome.isEmpty() || telefone == null || telefone.isEmpty() || email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
+      if (nome.isEmpty() || sobrenome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty()) {
          Toast.makeText(this, "Nome, senha e email devem ser preenchidos", Toast.LENGTH_SHORT).show();
          return;
       }
@@ -143,6 +142,7 @@ public class CadastroActivity extends AppCompatActivity {
                           String foto = uri.toString();
                           User user = new User(uid, nome, sobrenome, telefone, foto);
 
+                          assert uid != null;
                           FirebaseFirestore.getInstance().collection("usuarios")
                                   .document(uid)
                                   .set(user)
@@ -187,6 +187,25 @@ public class CadastroActivity extends AppCompatActivity {
       });
    }
 
+   @Override
+   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+
+      if (requestCode == 0) {
+         assert data != null;
+         uri = data.getData();
+
+         Bitmap bitmap;
+         try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            fotoDePerfil.setImageBitmap(bitmap);
+            botaoFoto.setAlpha(0);
+         } catch (IOException e) {
+         }
+      }
+
+   }
+
    private void configuraBotaoFoto() {
       botaoFoto.setOnClickListener(new View.OnClickListener() {
          @Override
@@ -194,33 +213,6 @@ public class CadastroActivity extends AppCompatActivity {
             selectFoto();
          }
       });
-   }
-
-   @Override
-   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-
-      if (requestCode == 0) {
-         uri = data.getData();
-
-         Bitmap bitmap = null;
-         try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(0);
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap,
-                    0,
-                    0,
-                    bitmap.getWidth(),
-                    bitmap.getHeight(),
-                    matrix,
-                    true);
-            fotoDePerfil.setImageBitmap(rotatedBitmap);
-            botaoFoto.setAlpha(0);
-         } catch (IOException e) {
-         }
-      }
-
    }
 
    private void selectFoto() {
@@ -275,6 +267,7 @@ public class CadastroActivity extends AppCompatActivity {
       final EditText campo = textInputCampo.getEditText();
       final ValidacaoPadrao validador = new ValidacaoPadrao(textInputCampo);
       validadores.add(validador);
+      assert campo != null;
       campo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
          @Override
          public void onFocusChange(View v, boolean hasFocus) {
@@ -309,6 +302,7 @@ public class CadastroActivity extends AppCompatActivity {
       ValidaTelefoneComDdd validadorTelefone = new ValidaTelefoneComDdd(textInputTelefone);
       validadores.add(validadorTelefone);
       FormataTelefoneComDdd formatadorTelefone = new FormataTelefoneComDdd();
+      assert campoTelefoneComDdd != null;
       campoTelefoneComDdd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
          @Override
          public void onFocusChange(View v, boolean hasFocus) {

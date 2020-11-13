@@ -26,9 +26,9 @@ public class DetalhesNotasFragment extends Fragment {
               container,
               false);
 
-      campoMateria = (TextView) view.findViewById(R.id.detalhes_nota_materia);
-      campoData = (TextView) view.findViewById(R.id.detalhes_nota_resultado);
-      listaTopicos = (ListView) view.findViewById(R.id.detalhes_notas);
+      campoMateria = view.findViewById(R.id.detalhes_nota_materia);
+      campoData = view.findViewById(R.id.detalhes_nota_resultado);
+      listaTopicos = view.findViewById(R.id.detalhes_notas);
 
       Bundle parametros = getArguments();
       if (parametros != null) {
