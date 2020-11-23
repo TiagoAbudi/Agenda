@@ -39,6 +39,12 @@ public class ListaAlunosView {
               .show();
    }
 
+   public Aluno abreEdita(final MenuItem item) {
+      AdapterView.AdapterContextMenuInfo menuInfo =
+              (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+      return adapter.getItem(menuInfo.position);
+   }
+
    public void atualizaAlunos() {
       BD bd = new BD(context);
       adapter.atualiza(bd.buscar());

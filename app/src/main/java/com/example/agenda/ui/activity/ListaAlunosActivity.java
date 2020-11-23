@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.agenda.R;
 import com.example.agenda.model.Aluno;
 import com.example.agenda.ui.ListaAlunosView;
-import com.example.agenda.ui.adapter.ListaAlunosAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
@@ -47,23 +46,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
          listaAlunosView.confirmaRemocao(item);
       }
       if (itemId == R.id.activity_lista_alunos_menu_editar) {
-         configuraItem(item);
+         Aluno alunoEscolhido = listaAlunosView.abreEdita(item);
+         abreFormularioModoEditaAluno(alunoEscolhido);
       }
       return super.onContextItemSelected(item);
-   }
-
-   @Override
-   protected void onResume() {
-      super.onResume();
-      listaAlunosView.atualizaAlunos();
-   }
-
-   private void configuraItem(final MenuItem item) {
-      ListaAlunosAdapter adapter = new ListaAlunosAdapter(this);
-      AdapterView.AdapterContextMenuInfo menuInfo =
-              (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-      Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-      abreFormularioModoEditaAluno(alunoEscolhido);
    }
 
    private void abreFormularioModoEditaAluno(Aluno alunoEscolhido) {
@@ -72,6 +58,21 @@ public class ListaAlunosActivity extends AppCompatActivity {
       vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, alunoEscolhido);
       startActivity(vaiParaFormularioActivity);
    }
+
+   @Override
+   protected void onResume() {
+      super.onResume();
+      listaAlunosView.atualizaAlunos();
+   }
+
+//   private void configuraItem(final MenuItem item) {
+//      ListaAlunosAdapter adapter = new ListaAlunosAdapter(this);
+//      AdapterView.AdapterContextMenuInfo menuInfo =
+//              (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//      Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+//      abreFormularioModoEditaAluno(alunoEscolhido);
+//   }
+
 
    private void configuraListenerDeCliquePorItem(ListView listaDeAlunos) {
       listaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {

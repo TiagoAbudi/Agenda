@@ -2,9 +2,9 @@ package com.example.agenda.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -38,7 +38,7 @@ import com.example.agenda.valida.ValidacaoPadrao;
 import com.example.agenda.valida.Validador;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,13 +47,9 @@ import static com.example.agenda.ui.activity.ContantesActivities.CHAVE_ALUNO;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
-   public static final int CODIGO_CAMERA = 567;
-   public static final int CODIGO_GALERIA = 568;
    private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo Aluno";
    private static final String TITULO_APPBAR_EDITA_ALUNO = "Editar Aluno";
    private final List<Validador> validadores = new ArrayList<>();
-   private final Intent abreCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-   private final Intent abreGaleria = new Intent(Intent.ACTION_PICK);
    private Aluno aluno;
    private EditText campoCep;
    private TextInputLayout textInputNome;
@@ -67,13 +63,10 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    private TextInputLayout textInputEstado;
    private TextInputLayout textInputCidade;
    private TextInputLayout textInputEmail;
-   private Button botaoTiraFoto;
-   private Button botaoEscolheFoto;
+   private Button botaoFoto;
    private ImageView foto;
-   private Uri uri;
-   private String caminhoFoto;
    private Util util;
-   private File arquivoFoto;
+   private String caminhoFoto;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -117,30 +110,33 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       if (resultCode == Activity.RESULT_OK) {
-         if (requestCode == CODIGO_CAMERA) {
-            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(270);
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
-                    0,
-                    0,
-                    bitmapReduzido.getWidth(),
-                    bitmapReduzido.getHeight(),
-                    matrix,
-                    true);
-            foto.setImageBitmap(rotatedBitmap);
-         }
          if (requestCode == Address.REQUEST_ZIP_CODE_CODE) {
             campoCep.setText(data.getStringExtra(Address.ZIP_CODE_KEY));
          }
-         uri = data.getData();
-         if (requestCode == CODIGO_GALERIA) {
+         if (requestCode == 0) {
+            assert data != null;
+            Uri uri = data.getData();
+            caminhoFoto = getImagePath(uri);
+
             Bitmap bitmap;
-            bitmap = BitmapFactory.decodeFile(caminhoFoto);
-            foto.setImageBitmap(bitmap);
+            try {
+               bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+               foto.setImageBitmap(bitmap);
+               botaoFoto.setAlpha(0);
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
          }
       }
+   }
+
+   public String getImagePath(Uri contentUri) {
+      String[] campos = {MediaStore.Images.Media.DATA};
+      Cursor cursor = getContentResolver().query(contentUri, campos, null, null, null);
+      cursor.moveToFirst();
+      String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+      cursor.close();
+      return path;
    }
 
    private void inicializacaoDosCampos() {
@@ -157,7 +153,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       iniciaCampoCidade();
       iniciaCampoEmail();
       configuraBotaoFoto();
-      configuraBotaoEscolheFoto();
    }
 
    private void setField(int id, String data) {
@@ -211,18 +206,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
    private void preencheCampoFoto() {
       if (!aluno.getFoto().equals("")) {
          Bitmap bitmap = BitmapFactory.decodeFile(aluno.getFoto());
-         caminhoFoto = aluno.getFoto();
-         Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-         Matrix matrix = new Matrix();
-         matrix.postRotate(270);
-         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapReduzido,
-                 0,
-                 0,
-                 bitmapReduzido.getWidth(),
-                 bitmapReduzido.getHeight(),
-                 matrix,
-                 true);
-         foto.setImageBitmap(rotatedBitmap);
+         foto.setImageBitmap(bitmap);
+         botaoFoto.setAlpha(0);
       }
    }
 
@@ -264,10 +249,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       textInputEstado = findViewById(R.id.activity_formulario_aluno_estado);
       textInputCidade = findViewById(R.id.activity_formulario_aluno_cidade);
       textInputEmail = findViewById(R.id.activity_formulario_aluno_email);
-      botaoTiraFoto = findViewById(R.id.botao_foto);
-      botaoEscolheFoto = findViewById(R.id.botao_escolher_foto);
       campoCep = findViewById(R.id.activity_formulario_aluno_edit_text_cep);
-      foto = findViewById(R.id.imagem_de_perfil);
+      foto = findViewById(R.id.activity_formualrio_foto_de_perfil);
+      botaoFoto = findViewById(R.id.botao_formualrio_foto);
    }
 
    private void iniciaCampoNome() {
@@ -386,7 +370,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       String estado = Objects.requireNonNull(textInputEstado.getEditText()).getText().toString();
       String cidade = Objects.requireNonNull(textInputCidade.getEditText()).getText().toString();
       String email = Objects.requireNonNull(textInputEmail.getEditText()).getText().toString();
-      String caminhoFotoString = caminhoFoto;
+      String foto = caminhoFoto;
 
       aluno.setNome(nome);
       aluno.setSobrenome(sobrenome);
@@ -399,35 +383,19 @@ public class FormularioAlunoActivity extends AppCompatActivity {
       aluno.setEstado(estado);
       aluno.setCidade(cidade);
       aluno.setEmail(email);
-      aluno.setFoto(caminhoFotoString);
-   }
-
-   private void configuraBotaoEscolheFoto() {
-      botaoEscolheFoto.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-            setaCaminhoFoto();
-            abreGaleria.setType("image/*");
-            abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-            startActivityForResult(abreGaleria, CODIGO_GALERIA);
-         }
-      });
+      aluno.setFoto(foto);
    }
 
    private void configuraBotaoFoto() {
-      botaoTiraFoto.setOnClickListener(new View.OnClickListener() {
+      botaoFoto.setOnClickListener(new View.OnClickListener() {
          @Override
-         public void onClick(View view) {
-            setaCaminhoFoto();
-            abreCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-            startActivityForResult(abreCamera, CODIGO_CAMERA);
+         public void onClick(View v) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
+            startActivityForResult(intent, 0);
          }
       });
-   }
-
-   private void setaCaminhoFoto() {
-      caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpeg";
-      arquivoFoto = new File(caminhoFoto);
    }
 
    private void enderecoAutomatico() {
